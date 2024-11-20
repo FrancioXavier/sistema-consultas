@@ -1,0 +1,9 @@
+Aloca��o de Consultas:
+Consulta 1: Paciente 1, M�dico 1, Sala 1, Hor�rio 8:00, Dia 1
+Consulta 2: Paciente 2, M�dico 2, Sala 1, Hor�rio 9:00, Dia 1
+Consulta 3: Paciente 3, M�dico 3, Sala 1, Hor�rio 10:00, Dia 1
+
+Horas Trabalhadas por M�dico:
+M�dico 1 (Dr_Pedro): 0 horas
+M�dico 2 (Dr_Marcelo): 1 horas
+M�dico 3 (Dr_Juliana): 1 horas
