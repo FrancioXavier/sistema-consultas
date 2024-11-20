@@ -116,7 +116,7 @@ void alocarConsultas(Paciente *pacientes, Medico *medicos, Sala *salas, Consulta
     }
 }
 
-void gerenciarRetornos(Paciente *pacientes, Consulta *consultas, int totalPacientes, int totalConsultas) {
+void gerenciarRetornos(Paciente *pacientes, Consulta *consultas, int totalConsultas) {
     for (int i = 0; i < totalConsultas; i++) {
         int pacienteId = consultas[i].paciente_id;
         if (pacientes[pacienteId].faltou == 1) {
@@ -194,7 +194,7 @@ int main() {
 
     // Passo 3: Gerenciar retornos e faltas
     printf("Gerenciando retornos e faltas...\n");
-    gerenciarRetornos(pacientes, consultas, totalPacientes, totalConsultas);
+    gerenciarRetornos(pacientes, consultas, totalConsultas);
     printf("Retornos e faltas gerenciados com sucesso!\n");
 
     // Passo 4: Gerar relatório

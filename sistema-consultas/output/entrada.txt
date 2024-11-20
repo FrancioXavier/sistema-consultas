@@ -1,0 +1,18 @@
+3
+1 João 25 70.5 1.75 Febre Nenhuma 123456789 2 1
+2 Maria 32 65.3 1.68 Dor_de_cabeça Dipirona 987654321 1 2
+3 Ana 29 60.0 1.60 Náusea Nenhuma 564738291 3 3
+
+2
+1 Sala_A
+2 Sala_B
+
+3
+1 Cardiologia
+2 Neurologia
+3 Gastroenterologia
+
+3
+1 Dr_Pedro 1
+2 Dr_Marcelo 2
+3 Dr_Juliana 3
