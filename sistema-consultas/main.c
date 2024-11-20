@@ -30,6 +30,7 @@ typedef struct {
 typedef struct {
     int id;
     char nome[50];
+    int ocupada;
 } Sala;
 
 typedef struct {
@@ -88,30 +89,28 @@ void alocarConsultas(Paciente *pacientes, Medico *medicos, Sala *salas, Consulta
     *totalConsultas = 0;
 
     for (int i = 0; i < totalPacientes; i++) {
-        if (pacientes[i].faltou) continue; // Ignorar pacientes que faltaram
+        if (!pacientes[i].faltou){ // Ignorar pacientes que faltaram
+            for (int j = 0; j < totalMedicos; j++) { // Encontra um m�dico dispon�vel com a mesma especialidade
+                if (medicos[j].especialidade_id == pacientes[i].especialidade_id) { // Encontra uma sala dispon�vel
+                    for (int k = 0; k < totalSalas; k++) {
+                        consultas[*totalConsultas].paciente_id = pacientes[i].id;
+                        consultas[*totalConsultas].medico_id = medicos[j].id;
+                        consultas[*totalConsultas].sala_id = salas[k].id;
+                        consultas[*totalConsultas].horario = horarioAtual;
+                        consultas[*totalConsultas].dia = diaAtual;
+                        (*totalConsultas)++;
 
-        // Encontra um m�dico dispon�vel com a mesma especialidade
-        for (int j = 0; j < totalMedicos; j++) {
-            if (medicos[j].especialidade_id == pacientes[i].especialidade_id) {
-                // Encontra uma sala dispon�vel
-                for (int k = 0; k < totalSalas; k++) {
-                    consultas[*totalConsultas].paciente_id = pacientes[i].id;
-                    consultas[*totalConsultas].medico_id = medicos[j].id;
-                    consultas[*totalConsultas].sala_id = salas[k].id;
-                    consultas[*totalConsultas].horario = horarioAtual;
-                    consultas[*totalConsultas].dia = diaAtual;
-                    (*totalConsultas)++;
-
-                    // Atualiza hor�rio e dia
-                    horarioAtual++;
-                    if (horarioAtual == 8) { // Assume 8 horas de trabalho por dia
-                        horarioAtual = 0;
-                        diaAtual++;
+                        // Atualiza hor�rio e dia
+                        horarioAtual++;
+                        if (horarioAtual == 8) { // Assume 8 horas de trabalho por dia
+                            horarioAtual = 0;
+                            diaAtual++;
+                        }
+                        if (diaAtual == 7) diaAtual = 0; // Semana seguinte
+                        break;
                     }
-                    if (diaAtual == 7) diaAtual = 0; // Semana seguinte
                     break;
                 }
-                break;
             }
         }
     }
