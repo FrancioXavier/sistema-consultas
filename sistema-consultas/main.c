@@ -13,7 +13,7 @@ typedef struct {
     char telefone[15];
     int prioridade; // Gerado aleatoriamente
     int especialidade_id;
-    int faltou; // 0 = não faltou, 1 = faltou
+    int faltou; // 0 = nï¿½o faltou, 1 = faltou
 } Paciente;
 
 typedef struct {
@@ -37,7 +37,7 @@ typedef struct {
     int medico_id;
     int sala_id;
     int horario; // Hora do dia (0 = 8:00, 1 = 9:00, etc.)
-    int dia;     // Dia da semana (0 = Segunda, 1 = Terça, etc.)
+    int dia;     // Dia da semana (0 = Segunda, 1 = Terï¿½a, etc.)
 } Consulta;
 
 
@@ -57,7 +57,7 @@ void lerDados(char *nomeArquivo, Paciente *pacientes, Sala *salas, Especialidade
                &pacientes[i].peso, &pacientes[i].altura, pacientes[i].sintomas,
                pacientes[i].medicacao, pacientes[i].telefone, &pacientes[i].prioridade,
                &pacientes[i].especialidade_id);
-        pacientes[i].faltou = 0; // Inicializa como "não faltou"
+        pacientes[i].faltou = 0; // Inicializa como "nï¿½o faltou"
     }
 
     // Leitura de salas
@@ -72,7 +72,7 @@ void lerDados(char *nomeArquivo, Paciente *pacientes, Sala *salas, Especialidade
         fscanf(file, "%d %s", &especialidades[i].id, especialidades[i].nome);
     }
 
-    // Leitura de médicos
+    // Leitura de mï¿½dicos
     fscanf(file, "%d", totalMedicos);
     for (int i = 0; i < *totalMedicos; i++) {
         fscanf(file, "%d %s %d", &medicos[i].id, medicos[i].nome, &medicos[i].especialidade_id);
@@ -83,17 +83,17 @@ void lerDados(char *nomeArquivo, Paciente *pacientes, Sala *salas, Especialidade
 
 void alocarConsultas(Paciente *pacientes, Medico *medicos, Sala *salas, Consulta *consultas,
                      int totalPacientes, int totalMedicos, int totalSalas, int *totalConsultas) {
-    int horarioAtual = 0; // Começa no horário 8:00
-    int diaAtual = 0;     // Começa na segunda-feira
+    int horarioAtual = 0; // Comeï¿½a no horï¿½rio 8:00
+    int diaAtual = 0;     // Comeï¿½a na segunda-feira
     *totalConsultas = 0;
 
     for (int i = 0; i < totalPacientes; i++) {
         if (pacientes[i].faltou) continue; // Ignorar pacientes que faltaram
 
-        // Encontra um médico disponível com a mesma especialidade
+        // Encontra um mï¿½dico disponï¿½vel com a mesma especialidade
         for (int j = 0; j < totalMedicos; j++) {
             if (medicos[j].especialidade_id == pacientes[i].especialidade_id) {
-                // Encontra uma sala disponível
+                // Encontra uma sala disponï¿½vel
                 for (int k = 0; k < totalSalas; k++) {
                     consultas[*totalConsultas].paciente_id = pacientes[i].id;
                     consultas[*totalConsultas].medico_id = medicos[j].id;
@@ -102,7 +102,7 @@ void alocarConsultas(Paciente *pacientes, Medico *medicos, Sala *salas, Consulta
                     consultas[*totalConsultas].dia = diaAtual;
                     (*totalConsultas)++;
 
-                    // Atualiza horário e dia
+                    // Atualiza horï¿½rio e dia
                     horarioAtual++;
                     if (horarioAtual == 8) { // Assume 8 horas de trabalho por dia
                         horarioAtual = 0;
@@ -123,7 +123,7 @@ void gerenciarRetornos(Paciente *pacientes, Consulta *consultas, int totalPacien
         if (pacientes[pacienteId].faltou == 1) {
             pacientes[pacienteId].prioridade--; // Reduz prioridade para faltosos
         } else {
-            // Verifica se o paciente precisa de retorno em até 30 dias
+            // Verifica se o paciente precisa de retorno em atï¿½ 30 dias
             pacientes[pacienteId].prioridade++; // Aumenta prioridade para retornos
         }
     }
@@ -132,27 +132,27 @@ void gerenciarRetornos(Paciente *pacientes, Consulta *consultas, int totalPacien
 void gerarRelatorio(Consulta *consultas, Medico *medicos, int totalConsultas, int totalMedicos) {
     FILE *file = fopen("relatorio.txt", "w");
     if (!file) {
-        printf("Erro ao criar o relatório!\n");
+        printf("Erro ao criar o relatï¿½rio!\n");
         exit(1);
     }
 
-    // Relatório de alocação
-    fprintf(file, "Alocação de Consultas:\n");
+    // Relatï¿½rio de alocaï¿½ï¿½o
+    fprintf(file, "Alocaï¿½ï¿½o de Consultas:\n");
     for (int i = 0; i < totalConsultas; i++) {
-        fprintf(file, "Consulta %d: Paciente %d, Médico %d, Sala %d, Horário %d:00, Dia %d\n",
+        fprintf(file, "Consulta %d: Paciente %d, Mï¿½dico %d, Sala %d, Horï¿½rio %d:00, Dia %d\n",
                 i + 1, consultas[i].paciente_id, consultas[i].medico_id,
                 consultas[i].sala_id, consultas[i].horario + 8, consultas[i].dia + 1);
     }
 
-    // Relatório de horas trabalhadas por médico
-    fprintf(file, "\nHoras Trabalhadas por Médico:\n");
+    // Relatï¿½rio de horas trabalhadas por mï¿½dico
+    fprintf(file, "\nHoras Trabalhadas por Mï¿½dico:\n");
     int horasTrabalhadas[totalMedicos];
     memset(horasTrabalhadas, 0, sizeof(horasTrabalhadas));
     for (int i = 0; i < totalConsultas; i++) {
         horasTrabalhadas[consultas[i].medico_id]++;
     }
     for (int i = 0; i < totalMedicos; i++) {
-        fprintf(file, "Médico %d (%s): %d horas\n", medicos[i].id, medicos[i].nome, horasTrabalhadas[i]);
+        fprintf(file, "Mï¿½dico %d (%s): %d horas\n", medicos[i].id, medicos[i].nome, horasTrabalhadas[i]);
     }
 
     fclose(file);
@@ -161,24 +161,50 @@ void gerarRelatorio(Consulta *consultas, Medico *medicos, int totalConsultas, in
 
 
 int main() {
-    Paciente pacientes[100];
-    Sala salas[10];
-    Especialidade especialidades[10];
-    Medico medicos[10];
-    Consulta consultas[500];
+    // Constantes para limites mÃ¡ximos (ajuste conforme necessÃ¡rio)
+    const int MAX_PACIENTES = 1000;
+    const int MAX_SALAS = 100;
+    const int MAX_ESPECIALIDADES = 50;
+    const int MAX_MEDICOS = 200;
+    const int MAX_CONSULTAS = 5000;
 
-    // Leitura dos dados de entrada
-    lerDados("entrada.txt", pacientes, salas, especialidades, medicos);
+    // Estruturas principais
+    Paciente pacientes[MAX_PACIENTES];
+    Sala salas[MAX_SALAS];
+    Especialidade especialidades[MAX_ESPECIALIDADES];
+    Medico medicos[MAX_MEDICOS];
+    Consulta consultas[MAX_CONSULTAS];
 
-    // Alocação de consultas
-    alocarConsultas(pacientes, medicos, salas, consultas);
+    // VariÃ¡veis de controle
+    int totalPacientes = 0, totalSalas = 0, totalEspecialidades = 0, totalMedicos = 0, totalConsultas = 0;
 
-    // Gerenciamento de retornos e faltas
-    gerenciarRetornos(pacientes, consultas);
+    // Nome do arquivo de entrada
+    char nomeArquivoEntrada[] = "entrada.txt";
 
-    // Geração de relatórios
-    gerarRelatorio(consultas, medicos);
+    // Passo 1: Ler dados do arquivo
+    printf("Lendo dados do arquivo...\n");
+    lerDados(nomeArquivoEntrada, pacientes, salas, especialidades, medicos, 
+             &totalPacientes, &totalSalas, &totalEspecialidades, &totalMedicos);
+    printf("Dados carregados com sucesso!\n");
 
+    // Passo 2: Alocar consultas
+    printf("Alocando consultas...\n");
+    alocarConsultas(pacientes, medicos, salas, consultas, 
+                    totalPacientes, totalMedicos, totalSalas, &totalConsultas);
+    printf("Consultas alocadas com sucesso!\n");
+
+    // Passo 3: Gerenciar retornos e faltas
+    printf("Gerenciando retornos e faltas...\n");
+    gerenciarRetornos(pacientes, consultas, totalPacientes, totalConsultas);
+    printf("Retornos e faltas gerenciados com sucesso!\n");
+
+    // Passo 4: Gerar relatÃ³rio
+    printf("Gerando relatÃ³rio...\n");
+    gerarRelatorio(consultas, medicos, totalConsultas, totalMedicos);
+    printf("RelatÃ³rio gerado com sucesso! Verifique o arquivo 'relatorio.txt'.\n");
+
+    // Finalizar o programa
+    printf("Programa finalizado com sucesso!\n");
     return 0;
 }
 
