@@ -2,207 +2,215 @@
 #include <stdlib.h>
 #include <string.h>
 
+// Constantes
+#define MAX_PACIENTES 1000
+#define MAX_SALAS 100
+#define MAX_ESPECIALIDADES 50
+#define MAX_MEDICOS 200
+#define MAX_CONSULTAS 5000
+
+// Estruturas
 typedef struct {
     int id;
     char nome[50];
     int idade;
-    float peso;
     float altura;
+    float peso;
     char sintomas[100];
-    char medicacao[50];
-    char telefone[15];
-    int prioridade; // Gerado aleatoriamente
-    int especialidade_id;
-    int faltou; // 0 = n�o faltou, 1 = faltou
+    int prioridade;
 } Paciente;
 
 typedef struct {
     int id;
     char nome[50];
-} Especialidade;
-
-typedef struct {
-    int id;
-    char nome[50];
-    int especialidade_id;
+    int especialidadeId;
+    int horasTrabalhadas;
 } Medico;
 
 typedef struct {
     int id;
     char nome[50];
-    int ocupada;
 } Sala;
 
 typedef struct {
-    int paciente_id;
-    int medico_id;
-    int sala_id;
-    int horario; // Hora do dia (0 = 8:00, 1 = 9:00, etc.)
-    int dia;     // Dia da semana (0 = Segunda, 1 = Ter�a, etc.)
+    int pacienteId; 
+    int medicoId;   
+    int salaId;
+    int horario; 
+    int retorno;
 } Consulta;
 
 
-void lerDados(char *nomeArquivo, Paciente *pacientes, Sala *salas, Especialidade *especialidades, Medico *medicos,
-              int *totalPacientes, int *totalSalas, int *totalEspecialidades, int *totalMedicos) {
-    FILE *file = fopen(nomeArquivo, "r");
-    if (!file) {
-        printf("Erro ao abrir o arquivo de entrada!\n");
-        exit(1);
+// Função para ler dados
+void lerDados(Paciente *pacientes, int *numPacientes, Medico *medicos, int *numMedicos, Sala *salas, int *numSalas) {
+    FILE *arquivo = fopen("entrada.txt", "r");
+    if (!arquivo) {
+        printf("Erro ao abrir o arquivo de entrada.\n");
+        return;
     }
 
-    // Leitura de pacientes
-    fscanf(file, "%d", totalPacientes);
-    for (int i = 0; i < *totalPacientes; i++) {
-        fscanf(file, "%d %s %d %f %f %s %s %s %d %d",
-               &pacientes[i].id, pacientes[i].nome, &pacientes[i].idade,
-               &pacientes[i].peso, &pacientes[i].altura, pacientes[i].sintomas,
-               pacientes[i].medicacao, pacientes[i].telefone, &pacientes[i].prioridade,
-               &pacientes[i].especialidade_id);
-        pacientes[i].faltou = 0; // Inicializa como "n�o faltou"
+    char linha[256];
+    
+    // Lendo pacientes
+    fgets(linha, sizeof(linha), arquivo);
+    while (fgets(linha, sizeof(linha), arquivo)) {
+        if (strncmp(linha, "Salas:", 6) == 0) break; // Próxima seção
+        if (*numPacientes >= MAX_PACIENTES) {
+            printf("Número máximo de pacientes excedido.\n");
+            break;
+        }
+        sscanf(linha, "%d %s %d %f %f %s %d", 
+               &pacientes[*numPacientes].id,
+               pacientes[*numPacientes].nome,
+               &pacientes[*numPacientes].idade,
+               &pacientes[*numPacientes].altura,
+               &pacientes[*numPacientes].peso,
+               pacientes[*numPacientes].sintomas,
+               &pacientes[*numPacientes].prioridade);
+        (*numPacientes)++;
     }
 
-    // Leitura de salas
-    fscanf(file, "%d", totalSalas);
-    for (int i = 0; i < *totalSalas; i++) {
-        fscanf(file, "%d %s", &salas[i].id, salas[i].nome);
+    // Lendo salas
+    while (fgets(linha, sizeof(linha), arquivo)) {
+        if (strncmp(linha, "Especialidades:", 15) == 0) break; // Próxima seção
+        if (*numSalas >= MAX_SALAS) {
+            printf("Número máximo de salas excedido.\n");
+            break;
+        }
+        sscanf(linha, "%d %s", 
+               &salas[*numSalas].id,
+               salas[*numSalas].nome);
+        (*numSalas)++;
     }
 
-    // Leitura de especialidades
-    fscanf(file, "%d", totalEspecialidades);
-    for (int i = 0; i < *totalEspecialidades; i++) {
-        fscanf(file, "%d %s", &especialidades[i].id, especialidades[i].nome);
+    // Lendo especialidades
+    int numEspecialidades = 0;
+    char especialidades[MAX_ESPECIALIDADES][50];
+    while (fgets(linha, sizeof(linha), arquivo)) {
+        if (strncmp(linha, "Médicos:", 8) == 0) break; // Próxima seção
+        if (numEspecialidades >= MAX_ESPECIALIDADES) {
+            printf("Número máximo de especialidades excedido.\n");
+            break;
+        }
+        sscanf(linha, "%d %s", 
+               &numEspecialidades, 
+               especialidades[numEspecialidades]);
+        numEspecialidades++;
     }
 
-    // Leitura de m�dicos
-    fscanf(file, "%d", totalMedicos);
-    for (int i = 0; i < *totalMedicos; i++) {
-        fscanf(file, "%d %s %d", &medicos[i].id, medicos[i].nome, &medicos[i].especialidade_id);
+    // Lendo médicos
+    while (fgets(linha, sizeof(linha), arquivo)) {
+        if (*numMedicos >= MAX_MEDICOS) {
+            printf("Número máximo de médicos excedido.\n");
+            break;
+        }
+        sscanf(linha, "%d %s %d", &medicos[(*numMedicos)].id, medicos[(*numMedicos)].nome, &medicos[(*numMedicos)].especialidadeId);
+
+        medicos[*numMedicos].horasTrabalhadas = 0; // Inicializa horas trabalhadas
+        (*numMedicos)++;
     }
 
-    fclose(file);
+    fclose(arquivo);
+    printf("Dados lidos do arquivo com sucesso!\n");
+    printf("Pacientes lidos: %d\n", *numPacientes);
+    printf("Salas lidas: %d\n", *numSalas);
+    printf("Especialidades lidas: %d\n", numEspecialidades);
+    printf("Médicos lidos: %d\n", *numMedicos);
 }
 
-void alocarConsultas(Paciente *pacientes, Medico *medicos, Sala *salas, Consulta *consultas,
-                     int totalPacientes, int totalMedicos, int totalSalas, int *totalConsultas) {
-    int horarioAtual = 0; // Come�a no hor�rio 8:00
-    int diaAtual = 0;     // Come�a na segunda-feira
-    *totalConsultas = 0;
+// Função para alocar consultas
+void alocarConsultas(Paciente *pacientes, int numPacientes, Medico *medicos, int numMedicos, 
+                     Sala *salas, int numSalas, Consulta *consultas, int *numConsultas) {
+    int horarioAtual = 8; // Início do expediente
+    for (int i = 0; i < numPacientes; i++) {
+        if (*numConsultas >= MAX_CONSULTAS) break;
 
-    for (int i = 0; i < totalPacientes; i++) {
-        if (pacientes[i].faltou) continue; // Ignorar pacientes que faltaram
-        for (int j = 0; j < totalMedicos; j++) { // Encontra um m�dico dispon�vel com a mesma especialidade
-            if (medicos[j].especialidade_id == pacientes[i].especialidade_id) { // Encontra uma sala dispon�vel
-                for (int k = 0; k < totalSalas; k++) {
-                    consultas[*totalConsultas].paciente_id = pacientes[i].id;
-                    consultas[*totalConsultas].medico_id = medicos[j].id;
-                    consultas[*totalConsultas].sala_id = salas[k].id;
-                    consultas[*totalConsultas].horario = horarioAtual;
-                    consultas[*totalConsultas].dia = diaAtual;
-                    (*totalConsultas)++;
+        // Aloca médico e sala disponíveis
+        for (int m = 0; m < numMedicos; m++) {
+            for (int s = 0; s < numSalas; s++) {
+                if (horarioAtual < 17) { // Dentro do horário comercial
+                    Consulta novaConsulta = {
+                        .pacienteId = pacientes[i].id,
+                        .medicoId = medicos[m].id,
+                        .salaId = salas[s].id,
+                        .horario = horarioAtual,
+                        .retorno = 0
+                    };
+                    consultas[(*numConsultas)++] = novaConsulta;
 
-                    // Atualiza hor�rio e dia
+                    medicos[m].horasTrabalhadas++;
+                    (*numConsultas)++;
                     horarioAtual++;
-                    if (horarioAtual == 8) { // Assume 8 horas de trabalho por dia
-                        horarioAtual = 0;
-                        diaAtual++;
-                    }
-                    if (diaAtual == 7) diaAtual = 0; // Semana seguinte
                     break;
                 }
-                break;
             }
         }
     }
 }
 
-void gerenciarRetornos(Paciente *pacientes, Consulta *consultas, int totalConsultas) {
-    for (int i = 0; i < totalConsultas; i++) {
-        int pacienteId = consultas[i].paciente_id;
-        if (pacientes[pacienteId].faltou == 1) {
-            pacientes[pacienteId].prioridade--; // Reduz prioridade para faltosos
-        } else {
-            // Verifica se o paciente precisa de retorno em at� 30 dias
-            pacientes[pacienteId].prioridade++; // Aumenta prioridade para retornos
+// Função para gerar relatório
+void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int numMedicos) {
+    FILE *arquivo = fopen("relatorio.txt", "w");
+    if (!arquivo) {
+        printf("Erro ao abrir arquivo para salvar o relatório.\n");
+        return;
+    }
+
+    fprintf(arquivo, "=== Relatório de Consultas ===\n\n");
+    fprintf(arquivo, "Consultas Realizadas:\n");
+    for (int i = 0; i < numConsultas; i++) {
+        fprintf(arquivo, "Consulta %d: Paciente %d, Médico %d, Sala %d, Horário %d, Retorno %d\n",
+            i + 1,
+            consultas[i].pacienteId,
+            consultas[i].medicoId,
+            consultas[i].salaId,
+            consultas[i].horario,
+            consultas[i].retorno
+        );
+    }
+
+    fprintf(arquivo, "\nResumo de Horas Trabalhadas:\n");
+    for (int i = 0; i < numMedicos; i++) {
+        fprintf(arquivo, "- Médico %s (ID %d): %d %s\n",
+                medicos[i].nome, medicos[i].id, medicos[i].horasTrabalhadas,
+                medicos[i].horasTrabalhadas == 1 ? "hora" : "horas");
+    }
+
+    fclose(arquivo);
+    printf("Relatório salvo em 'relatorio.txt'.\n");
+}
+
+void gerenciarRetornos(Consulta *consultas, int *numConsultas, int maxConsultas) {
+    for (int i = 0; i < *numConsultas; i++) {
+        if (consultas[i].retorno == 1 && *numConsultas < maxConsultas) {
+            Consulta novaConsulta = consultas[i];
+            novaConsulta.horario += 1; // Ajuste o horário de retorno
+            novaConsulta.retorno = 0; // Retornos não têm direito a novos retornos
+            consultas[*numConsultas] = novaConsulta;
+            (*numConsultas)++;
         }
     }
 }
 
-void gerarRelatorio(Consulta *consultas, Medico *medicos, int totalConsultas, int totalMedicos) {
-    FILE *file = fopen("relatorio.txt", "w");
-    if (!file) {
-        printf("Erro ao criar o relat�rio!\n");
-        exit(1);
-    }
-
-    // Relat�rio de aloca��o
-    fprintf(file, "Aloca��o de Consultas:\n");
-    for (int i = 0; i < totalConsultas; i++) {
-        fprintf(file, "Consulta %d: Paciente %d, M�dico %d, Sala %d, Hor�rio %d:00, Dia %d\n",
-                i + 1, consultas[i].paciente_id, consultas[i].medico_id,
-                consultas[i].sala_id, consultas[i].horario + 8, consultas[i].dia + 1);
-    }
-
-    // Relat�rio de horas trabalhadas por m�dico
-    fprintf(file, "\nHoras Trabalhadas por M�dico:\n");
-    int horasTrabalhadas[totalMedicos];
-    memset(horasTrabalhadas, 0, sizeof(horasTrabalhadas));
-    for (int i = 0; i < totalConsultas; i++) {
-        horasTrabalhadas[consultas[i].medico_id]++;
-    }
-    for (int i = 0; i < totalMedicos; i++) {
-        fprintf(file, "M�dico %d (%s): %d horas\n", medicos[i].id, medicos[i].nome, horasTrabalhadas[i]);
-    }
-
-    fclose(file);
-}
-
-
-
+// Função principal
 int main() {
-    // Constantes para limites máximos (ajuste conforme necessário)
-    const int MAX_PACIENTES = 1000;
-    const int MAX_SALAS = 100;
-    const int MAX_ESPECIALIDADES = 50;
-    const int MAX_MEDICOS = 200;
-    const int MAX_CONSULTAS = 5000;
-
-    // Estruturas principais
     Paciente pacientes[MAX_PACIENTES];
-    Sala salas[MAX_SALAS];
-    Especialidade especialidades[MAX_ESPECIALIDADES];
     Medico medicos[MAX_MEDICOS];
+    Sala salas[MAX_SALAS];
     Consulta consultas[MAX_CONSULTAS];
+    int numPacientes = 0, numMedicos = 0, numSalas = 0, numConsultas = 0;
 
-    // Variáveis de controle
-    int totalPacientes = 0, totalSalas = 0, totalEspecialidades = 0, totalMedicos = 0, totalConsultas = 0;
+    // Ler dados do arquivo
+    lerDados(pacientes, &numPacientes, medicos, &numMedicos, salas, &numSalas);
 
-    // Nome do arquivo de entrada
-    char nomeArquivoEntrada[] = "entrada.txt";
+    // Alocar consultas
+    alocarConsultas(pacientes, numPacientes, medicos, numMedicos, salas, numSalas, consultas, &numConsultas);
 
-    // Passo 1: Ler dados do arquivo
-    printf("Lendo dados do arquivo...\n");
-    lerDados(nomeArquivoEntrada, pacientes, salas, especialidades, medicos, 
-             &totalPacientes, &totalSalas, &totalEspecialidades, &totalMedicos);
-    printf("Dados carregados com sucesso!\n");
+    // Gerenciar retornos
+    gerenciarRetornos(consultas, &numConsultas, MAX_CONSULTAS);
 
-    // Passo 2: Alocar consultas
-    printf("Alocando consultas...\n");
-    alocarConsultas(pacientes, medicos, salas, consultas, 
-                    totalPacientes, totalMedicos, totalSalas, &totalConsultas);
-    printf("Consultas alocadas com sucesso!\n");
+    // Gerar relatório
+    gerarRelatorio(consultas, numConsultas, medicos, numMedicos);
 
-    // Passo 3: Gerenciar retornos e faltas
-    printf("Gerenciando retornos e faltas...\n");
-    gerenciarRetornos(pacientes, consultas, totalConsultas);
-    printf("Retornos e faltas gerenciados com sucesso!\n");
-
-    // Passo 4: Gerar relatório
-    printf("Gerando relatório...\n");
-    gerarRelatorio(consultas, medicos, totalConsultas, totalMedicos);
-    printf("Relatório gerado com sucesso! Verifique o arquivo 'relatorio.txt'.\n");
-
-    // Finalizar o programa
-    printf("Programa finalizado com sucesso!\n");
     return 0;
 }
-

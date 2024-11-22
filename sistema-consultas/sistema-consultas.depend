@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1732315267 source:c:\users\franc\onedrive\documentos\projetos\sistema-consulta\sistema-consultas\sistema-consultas\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
