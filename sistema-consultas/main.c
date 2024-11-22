@@ -129,12 +129,13 @@ void alocarConsultas(Paciente *pacientes, int numPacientes, Medico *medicos, int
         for (int m = 0; m < numMedicos; m++) {
             for (int s = 0; s < numSalas; s++) {
                 if (horarioAtual < 17) { // Dentro do horário comercial
+                    //sempre vai preencher todas as consultas
                     Consulta novaConsulta = {
                         .pacienteId = pacientes[i].id,
                         .medicoId = medicos[m].id,
                         .salaId = salas[s].id,
                         .horario = horarioAtual,
-                        .retorno = 0
+                        .retorno = 0 //RETORNO SEMPRE 0
                     };
                     consultas[(*numConsultas)++] = novaConsulta;
 
