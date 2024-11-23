@@ -121,36 +121,68 @@ void lerDados(Paciente *pacientes, int *numPacientes, Medico *medicos, int *numM
 // Função para alocar consultas
 void alocarConsultas(Paciente *pacientes, int numPacientes, Medico *medicos, int numMedicos, 
                      Sala *salas, int numSalas, Consulta *consultas, int *numConsultas) {
-    int horarioAtual = 8; // Início do expediente
+    // Matrizes para rastrear disponibilidade de médicos e salas.
+    int horariosMedicos[MAX_MEDICOS][17] = {0}; // Horários ocupados pelos médicos (8h às 16h).
+    int horariosSalas[MAX_SALAS][17] = {0};     // Horários ocupados pelas salas (8h às 16h).
+
+    // Inicializa as horas trabalhadas dos médicos
+    for (int m = 0; m < numMedicos; m++) {
+        medicos[m].horasTrabalhadas = 0;
+    }
+
     for (int i = 0; i < numPacientes; i++) {
         if (*numConsultas >= MAX_CONSULTAS) break;
 
-        // Aloca médico e sala disponíveis
-        for (int m = 0; m < numMedicos; m++) {
-            for (int s = 0; s < numSalas; s++) {
-                if (horarioAtual < 17) { // Dentro do horário comercial
-                    //sempre vai preencher todas as consultas
-                    Consulta novaConsulta = {
-                        .pacienteId = pacientes[i].id,
-                        .medicoId = medicos[m].id,
-                        .salaId = salas[s].id,
-                        .horario = horarioAtual,
-                        .retorno = 0 //RETORNO SEMPRE 0
-                    };
-                    consultas[(*numConsultas)++] = novaConsulta;
+        int consultaAlocada = 0; // Flag para saber se a consulta foi alocada.
 
-                    medicos[m].horasTrabalhadas++;
-                    (*numConsultas)++;
-                    horarioAtual++;
-                    break;
+        // Tenta alocar consulta para o paciente
+        for (int h = 8; h < 17 && !consultaAlocada; h++) { // Horários de 8h às 16h.
+            for (int m = 0; m < numMedicos && !consultaAlocada; m++) {
+                for (int s = 0; s < numSalas && !consultaAlocada; s++) {
+                    // Verifica se médico e sala estão disponíveis no horário.
+                    if (horariosMedicos[m][h] == 0 && horariosSalas[s][h] == 0) {
+                        // Cria uma nova consulta.
+                        Consulta novaConsulta = {
+                            .pacienteId = pacientes[i].id,
+                            .medicoId = medicos[m].id,
+                            .salaId = salas[s].id,
+                            .horario = h,
+                            .retorno = 0 // Retorno inicial é 0.
+                        };
+
+                        // Atualiza as matrizes de disponibilidade.
+                        horariosMedicos[m][h] = 1;
+                        horariosSalas[s][h] = 1;
+
+                        // Adiciona a consulta à lista.
+                        consultas[(*numConsultas)++] = novaConsulta;
+
+                        // Incrementa as horas trabalhadas do médico.
+                        medicos[m].horasTrabalhadas++;
+
+                        consultaAlocada = 1; // Consulta foi alocada.
+                    }
                 }
             }
+        }
+
+        // Caso não seja possível alocar a consulta.
+        if (!consultaAlocada) {
+            printf("Erro: Não foi possível alocar consulta para o paciente %d.\n", pacientes[i].id);
         }
     }
 }
 
-// Função para gerar relatório
-void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int numMedicos) {
+// Função auxiliar para determinar o dia da semana
+const char *obterDiaDaSemana(int horario) {
+    // Cada dia tem 9 horas (8h às 17h), assumindo que o expediente começa em "horário = 8"
+    int diaIndex = (horario - 8) / 9;
+    const char *diasDaSemana[] = {"Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira"};
+    return diasDaSemana[diaIndex % 5]; // Cicla entre os dias úteis
+}
+
+// Função ajustada para gerar relatório
+void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int numMedicos, Paciente *pacientes, int numPacientes) {
     FILE *arquivo = fopen("relatorio.txt", "w");
     if (!arquivo) {
         printf("Erro ao abrir arquivo para salvar o relatório.\n");
@@ -158,16 +190,56 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
     }
 
     fprintf(arquivo, "=== Relatório de Consultas ===\n\n");
-    fprintf(arquivo, "Consultas Realizadas:\n");
-    for (int i = 0; i < numConsultas; i++) {
-        fprintf(arquivo, "Consulta %d: Paciente %d, Médico %d, Sala %d, Horário %d, Retorno %d\n",
-            i + 1,
-            consultas[i].pacienteId,
-            consultas[i].medicoId,
-            consultas[i].salaId,
-            consultas[i].horario,
-            consultas[i].retorno
-        );
+    fprintf(arquivo, "Consultas Realizadas por Dia da Semana:\n");
+
+    const char *diasDaSemana[] = {"Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira"};
+
+    for (int d = 0; d < 5; d++) { // Itera pelos dias úteis
+        fprintf(arquivo, "\n%s:\n", diasDaSemana[d]);
+        int consultasNoDia = 0;
+
+        for (int i = 0; i < numConsultas; i++) {
+            // Ignora consultas inválidas
+            if (consultas[i].pacienteId == 0 || consultas[i].medicoId == 0 || consultas[i].salaId == 0 || consultas[i].horario == 0) {
+                continue;
+            }
+
+            const char *diaConsulta = obterDiaDaSemana(consultas[i].horario);
+            if (strcmp(diaConsulta, diasDaSemana[d]) == 0) {
+                // Recupera o nome do paciente
+                char nomePaciente[50] = "Desconhecido";
+                for (int p = 0; p < numPacientes; p++) {
+                    if (pacientes[p].id == consultas[i].pacienteId) {
+                        strcpy(nomePaciente, pacientes[p].nome);
+                        break;
+                    }
+                }
+
+                // Recupera o nome do médico
+                char nomeMedico[50] = "Desconhecido";
+                for (int m = 0; m < numMedicos; m++) {
+                    if (medicos[m].id == consultas[i].medicoId) {
+                        strcpy(nomeMedico, medicos[m].nome);
+                        break;
+                    }
+                }
+
+                fprintf(arquivo, "  Consulta %d: Paciente %s (ID %d), Médico %s (ID %d), Sala %d, Horário %d, Retorno %d\n",
+                        i + 1,
+                        nomePaciente,
+                        consultas[i].pacienteId,
+                        nomeMedico,
+                        consultas[i].medicoId,
+                        consultas[i].salaId,
+                        consultas[i].horario,
+                        consultas[i].retorno);
+                consultasNoDia++;
+            }
+        }
+
+        if (consultasNoDia == 0) {
+            fprintf(arquivo, "  Nenhuma consulta agendada.\n");
+        }
     }
 
     fprintf(arquivo, "\nResumo de Horas Trabalhadas:\n");
@@ -211,7 +283,7 @@ int main() {
     gerenciarRetornos(consultas, &numConsultas, MAX_CONSULTAS);
 
     // Gerar relatório
-    gerarRelatorio(consultas, numConsultas, medicos, numMedicos);
+    gerarRelatorio(consultas, numConsultas, medicos, numMedicos, pacientes, numPacientes);
 
     return 0;
 }

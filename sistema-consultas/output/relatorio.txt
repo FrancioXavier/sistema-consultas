@@ -1,9 +1,27 @@
-Aloca��o de Consultas:
-Consulta 1: Paciente 1, M�dico 1, Sala 1, Hor�rio 8:00, Dia 1
-Consulta 2: Paciente 2, M�dico 2, Sala 1, Hor�rio 9:00, Dia 1
-Consulta 3: Paciente 3, M�dico 3, Sala 1, Hor�rio 10:00, Dia 1
+=== Relatório de Consultas ===
 
-Horas Trabalhadas por M�dico:
-M�dico 1 (Dr_Pedro): 0 horas
-M�dico 2 (Dr_Marcelo): 1 horas
-M�dico 3 (Dr_Juliana): 1 horas
+Consultas Realizadas por Dia da Semana:
+
+Segunda-feira:
+  Consulta 1: Paciente João (ID 1), Médico Dr_Silva (ID 1), Sala 1, Horário 8, Retorno 0
+  Consulta 2: Paciente Maria (ID 2), Médico Dra_Ana (ID 2), Sala 2, Horário 8, Retorno 0
+  Consulta 3: Paciente Carlos (ID 3), Médico Dr_Silva (ID 1), Sala 1, Horário 9, Retorno 0
+  Consulta 4: Paciente Ana (ID 4), Médico Dra_Ana (ID 2), Sala 2, Horário 9, Retorno 0
+  Consulta 5: Paciente Pedro (ID 5), Médico Dr_Silva (ID 1), Sala 1, Horário 10, Retorno 0
+  Consulta 6: Paciente Carla (ID 6), Médico Dra_Ana (ID 2), Sala 2, Horário 10, Retorno 0
+
+Terça-feira:
+  Nenhuma consulta agendada.
+
+Quarta-feira:
+  Nenhuma consulta agendada.
+
+Quinta-feira:
+  Nenhuma consulta agendada.
+
+Sexta-feira:
+  Nenhuma consulta agendada.
+
+Resumo de Horas Trabalhadas:
+- Médico Dr_Silva (ID 1): 4 horas
+- Médico Dra_Ana (ID 2): 3 horas
