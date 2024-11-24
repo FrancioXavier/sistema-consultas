@@ -2,13 +2,28 @@
 
 Consultas Realizadas por Dia da Semana:
 
+Domingo:
+Consulta 1: Paciente 1, Médico 1, Sala 1, Horário 8 ( O paciente não compareceu )
+Consulta 2: Paciente 2, Médico 2, Sala 2, Horário 8 ( O paciente não compareceu )
+Consulta 3: Paciente 3, Médico 1, Sala 1, Horário 9 ( O paciente não compareceu )
+Consulta 4: Paciente 4, Médico 2, Sala 2, Horário 9, Retorno em 30 dias
+Consulta 5: Paciente 5, Médico 1, Sala 1, Horário 10 ( O paciente não compareceu )
+Consulta 6: Paciente 6, Médico 2, Sala 2, Horário 10 ( O paciente não compareceu )
+Consulta 7: Paciente 7, Médico 1, Sala 1, Horário 11 ( O paciente não compareceu )
+Consulta 8: Paciente 8, Médico 2, Sala 2, Horário 11 ( O paciente não compareceu )
+Consulta 9: Paciente 9, Médico 1, Sala 1, Horário 12 ( O paciente não compareceu )
+Consulta 10: Paciente 10, Médico 2, Sala 2, Horário 12, Retorno em 30 dias
+Consulta 11: Paciente 11, Médico 1, Sala 1, Horário 13, Retorno em 30 dias
+Consulta 12: Paciente 12, Médico 2, Sala 2, Horário 13, Retorno em 30 dias
+Consulta 13: Paciente 13, Médico 1, Sala 1, Horário 14 ( O paciente não compareceu )
+Consulta 14: Paciente 14, Médico 2, Sala 2, Horário 14, Retorno em 30 dias
+Consulta 15: Paciente 15, Médico 1, Sala 1, Horário 15 ( O paciente não compareceu )
+Consulta 16: Paciente 16, Médico 2, Sala 2, Horário 15, Retorno em 30 dias
+Consulta 17: Paciente 17, Médico 1, Sala 1, Horário 16, Retorno em 30 dias
+Consulta 18: Paciente 18, Médico 2, Sala 2, Horário 16 ( O paciente não compareceu )
+
 Segunda-feira:
-  Consulta 1: Paciente João (ID 1), Médico Dr_Silva (ID 1), Sala 1, Horário 8, Retorno 0
-  Consulta 2: Paciente Maria (ID 2), Médico Dra_Ana (ID 2), Sala 2, Horário 8, Retorno 0
-  Consulta 3: Paciente Carlos (ID 3), Médico Dr_Silva (ID 1), Sala 1, Horário 9, Retorno 0
-  Consulta 4: Paciente Ana (ID 4), Médico Dra_Ana (ID 2), Sala 2, Horário 9, Retorno 0
-  Consulta 5: Paciente Pedro (ID 5), Médico Dr_Silva (ID 1), Sala 1, Horário 10, Retorno 0
-  Consulta 6: Paciente Carla (ID 6), Médico Dra_Ana (ID 2), Sala 2, Horário 10, Retorno 0
+  Nenhuma consulta agendada.
 
 Terça-feira:
   Nenhuma consulta agendada.
@@ -22,6 +37,20 @@ Quinta-feira:
 Sexta-feira:
   Nenhuma consulta agendada.
 
+Sábado:
+  Nenhuma consulta agendada.
+
+
+=== Consultas de retorno ===
+
+Consulta 19: Paciente: 4, Médico: 2, Sala: 2, dia e hora: 9:00, 24/12/2024 
+Consulta 20: Paciente: 10, Médico: 2, Sala: 2, dia e hora: 12:00, 24/12/2024 
+Consulta 21: Paciente: 11, Médico: 1, Sala: 1, dia e hora: 13:00, 24/12/2024 
+Consulta 22: Paciente: 12, Médico: 2, Sala: 2, dia e hora: 13:00, 24/12/2024 
+Consulta 23: Paciente: 14, Médico: 2, Sala: 2, dia e hora: 14:00, 24/12/2024 
+Consulta 24: Paciente: 16, Médico: 2, Sala: 2, dia e hora: 15:00, 24/12/2024 
+Consulta 25: Paciente: 17, Médico: 1, Sala: 1, dia e hora: 16:00, 24/12/2024 
+
 Resumo de Horas Trabalhadas:
-- Médico Dr_Silva (ID 1): 4 horas
-- Médico Dra_Ana (ID 2): 3 horas
+- Médico Dr_Silva (ID 1): 9 horas
+- Médico Dra_Ana (ID 2): 9 horas

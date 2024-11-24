@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <conio.h>
 
 // Constantes
 #define MAX_PACIENTES 1000
@@ -45,6 +46,7 @@ typedef struct
     int retorno;
     struct tm dataConsulta; // Data da consulta
     struct tm dataRetorno;  // Data do retorno
+    int compareceu;
 } Consulta;
 
 // Função para ler dados
@@ -193,6 +195,11 @@ void alocarConsultas(Paciente *pacientes, int numPacientes, Medico *medicos, int
             }
         }
 
+    // Se o paciente comparece a consulta é decidido aleatoriamente
+    for(int z = 0; z < (*numConsultas); z++){
+        consultas[z].compareceu = rand() % 2;
+    }
+
         // Caso não seja possível alocar a consulta.
         if (!consultaAlocada)
         {
@@ -285,6 +292,7 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
                 int dias = consultas[i].horario % 24;
                 if (consultas[i].retorno != 0)
                 {
+                    if(consultas[i].compareceu == 1){
                     fprintf(arquivo, "Consulta %d: Paciente %d, Médico %d, Sala %d, Horário %d, Retorno em %d dias\n",
                             i + 1,
                             consultas[i].pacienteId,
@@ -292,6 +300,15 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
                             consultas[i].salaId,
                             dias,
                             consultas[i].retorno);
+                    }else{
+                        fprintf(arquivo, "Consulta %d: Paciente %d, Médico %d, Sala %d, Horário %d ( O paciente não compareceu )\n",
+                        i + 1,
+                        consultas[i].pacienteId,
+                        consultas[i].medicoId,
+                        consultas[i].salaId,
+                        dias
+                        );
+                    }
                     consultasNoDia++;
                 }
             }
@@ -345,7 +362,7 @@ void gerenciarRetornos(Consulta *consultas, int *numConsultas, int maxConsultas)
     for (int i = 0; i < *numConsultas; i++)
     {
         // Verificar se a consulta original tem um retorno agendado
-        if (consultas[i].retorno != 0)
+        if (consultas[i].retorno != 0 && consultas[i].compareceu)
         {
             // Calcular data de retorno: adicionar 30 dias à data da consulta
             consultas[i].dataRetorno = consultas[i].dataConsulta; // Copiar data original
@@ -389,6 +406,9 @@ int main()
     Sala salas[MAX_SALAS];
     Consulta consultas[MAX_CONSULTAS];
     int numPacientes = 0, numMedicos = 0, numSalas = 0, numConsultas = 0;
+
+    // Gera seeds aleatórias
+    srand(time(NULL));
 
     // Ler dados do arquivo
     lerDados(pacientes, &numPacientes, medicos, &numMedicos, salas, &numSalas);

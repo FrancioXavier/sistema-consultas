@@ -1,19 +1,45 @@
 Pacientes:
-1 João 30 1.75 70.0 Febre 2
-2 Maria 25 1.65 60.0 Tosse 1
-3 Carlos 40 1.80 85.0 DorDeCabeça 3
-4 Ana 35 1.60 50.0 Náusea 1
-5 Pedro 50 1.90 90.0 Cansaço 2
-6 Carla 28 1.70 65.0 Enjoo 2
+1 Maria 30 1.60 65 Febre_alta 2
+2 Maria 30 1.60 65 Febre_alta 2
+3 Maria 30 1.60 65 Febre_alta 2
+4 João 25 1.80 75 Dor_no_peito 1
+5 Maria 30 1.60 65 Febre_alta 2
+6 Maria 30 1.60 65 Febre_alta 2
+7 Maria 30 1.60 65 Febre_alta 2
+8 João 25 1.80 75 Dor_no_peito 1
+9 Maria 30 1.60 65 Febre_alta 2
+10 Maria 30 1.60 65 Febre_alta 2
+11 Maria 30 1.60 65 Febre_alta 2
+12 João 25 1.80 75 Dor_no_peito 1
+13 Maria 30 1.60 65 Febre_alta 2
+14 Maria 30 1.60 65 Febre_alta 2
+15 Maria 30 1.60 65 Febre_alta 2
+16 João 25 1.80 75 Dor_no_peito 1
+17 Maria 30 1.60 65 Febre_alta 2
+18 Maria 30 1.60 65 Febre_alta 2
+19 Maria 30 1.60 65 Febre_alta 2
+20 João 25 1.80 75 Dor_no_peito 1
+21 Maria 30 1.60 65 Febre_alta 2
+22 Maria 30 1.60 65 Febre_alta 2
+23 Maria 30 1.60 65 Febre_alta 2
+24 João 25 1.80 75 Dor_no_peito 1
+25 Maria 30 1.60 65 Febre_alta 2
+26 Maria 30 1.60 65 Febre_alta 2
+27 Maria 30 1.60 65 Febre_alta 2
+28 João 25 1.80 75 Dor_no_peito 1
+29 Maria 30 1.60 65 Febre_alta 2
+30 Maria 30 1.60 65 Febre_alta 2
+31 Maria 30 1.60 65 Febre_alta 2
+32 João 25 1.80 75 Dor_no_peito 1
 
 Salas:
-1 SalaA
-2 SalaB
+1 Sala_A
+2 Sala_B
 
 Especialidades:
-1 ClinicoGeral
-2 Cardiologista
+1 Cardiologia
+2 Clínica_Geral
 
 Médicos:
-1 Dr_Silva 1
-2 Dra_Ana 2
+1 Dr_Silva Cardiologia
+2 Dra_Ana Clínica_Geral
