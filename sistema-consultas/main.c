@@ -470,10 +470,6 @@ int main()
     // Ordenar pacientes por prioridade antes de alocar as consultas
     ordenarPorPrioridade(pacientes, numPacientes);
 
-    for(int i = 0; i < numPacientes; i++){
-        printf("%d ", pacientes[i].id);
-    }
-
     // Alocar consultas
     alocarConsultas(pacientes, numPacientes, medicos, numMedicos, salas, numSalas, consultas, &numConsultas);
 
