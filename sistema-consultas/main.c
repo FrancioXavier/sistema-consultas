@@ -198,8 +198,8 @@ void alocarConsultas(Paciente *pacientes, int numPacientes, Medico *medicos, int
                      Sala *salas, int numSalas, Consulta *consultas, int *numConsultas)
 {
     // Matrizes para rastrear disponibilidade de médicos e salas.
-    int horariosMedicos[MAX_MEDICOS][17] = {0}; // Horários ocupados pelos médicos (8h às 16h).
-    int horariosSalas[MAX_SALAS][17] = {0};     // Horários ocupados pelas salas (8h às 16h).
+    int horariosMedicos[MAX_MEDICOS][17][7] = {0}; // Horários e dias ocupados pelos médicos (8h às 16h).
+    int horariosSalas[MAX_SALAS][17][7] = {0};     // Horários e dias ocupados pelas salas (8h às 16h).
 
     // Inicializa as horas trabalhadas dos médicos
     for (int m = 0; m < numMedicos; m++)
@@ -215,44 +215,48 @@ void alocarConsultas(Paciente *pacientes, int numPacientes, Medico *medicos, int
         int consultaAlocada = 0; // Flag para saber se a consulta foi alocada.
 
         // Tenta alocar consulta para o paciente
-        for (int h = 8; h < 17 && !consultaAlocada; h++)
-        { // Horários de 8h às 16h.
-            for (int m = 0; m < numMedicos && !consultaAlocada; m++)
+            
+            for(int d = 0; d < 7; d++)
             {
-                for (int s = 0; s < numSalas && !consultaAlocada; s++)
-                {
-                    // Verifica se médico e sala estão disponíveis no horário.
-                    if (horariosMedicos[m][h] == 0 && horariosSalas[s][h] == 0)
+                for (int h = 8; h < 17 && !consultaAlocada; h++)
+                { // Horários de 8h às 16h.
+                    for (int m = 0; m < numMedicos && !consultaAlocada; m++)
                     {
-                        // Cria uma nova consulta.
-                        Consulta novaConsulta = {
-                            .pacienteId = pacientes[i].id,
-                            .medicoId = medicos[m].id,
-                            .salaId = salas[s].id,
-                            .horario = h,
-                            .retorno = 30 // Retorno inicial 30 dias após a consulta
-                        };
+                        for (int s = 0; s < numSalas && !consultaAlocada; s++)
+                        {
+                            // Verifica se médico e sala estão disponíveis no horário.
+                            if (horariosMedicos[m][h][d] == 0 && horariosSalas[s][h][d] == 0)
+                            {
+                                // Cria uma nova consulta.
+                                Consulta novaConsulta = {
+                                    .pacienteId = pacientes[i].id,
+                                    .medicoId = medicos[m].id,
+                                    .salaId = salas[s].id,
+                                    .horario = h,
+                                    .retorno = 30 // Retorno inicial 30 dias após a consulta
+                                };
 
-                        // Atualiza as matrizes de disponibilidade.
-                        horariosMedicos[m][h] = 1;
-                        horariosSalas[s][h] = 1;
+                                // Atualiza as matrizes de disponibilidade.
+                                horariosMedicos[m][h][d] = 1;
+                                horariosSalas[s][h][d] = 1;
 
-                        // Adiciona a consulta à lista.
-                        consultas[(*numConsultas)++] = novaConsulta;
+                                // Adiciona a consulta à lista.
+                                consultas[(*numConsultas)++] = novaConsulta;
 
-                        // Incrementa as horas trabalhadas do médico.
-                        medicos[m].horasTrabalhadas++;
+                                // Incrementa as horas trabalhadas do médico.
+                                medicos[m].horasTrabalhadas++;
 
-                        consultaAlocada = 1; // Consulta foi alocada.
+                                consultaAlocada = 1; // Consulta foi alocada.
+                            }
+                        }
                     }
                 }
             }
-        }
 
-    // Se o paciente comparece a consulta é decidido aleatoriamente
-    for(int z = 0; z < (*numConsultas); z++){
-        consultas[z].compareceu = rand() % 2;
-    }
+        // Se o paciente comparece a consulta é decidido aleatoriamente
+        for(int z = 0; z < (*numConsultas); z++){
+            consultas[z].compareceu = rand() % 2;
+        }
 
         // Caso não seja possível alocar a consulta.
         if (!consultaAlocada)
@@ -281,6 +285,8 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
         return;
     }
 
+    int maxConsultasDia = numMedicos*10;
+
     fprintf(arquivo, "=== Relatório de Consultas ===\n\n");
     fprintf(arquivo, "Consultas Realizadas por Dia da Semana:\n");
 
@@ -292,14 +298,15 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
         int consultasNoDia = 0;
 
         char bufferConsulta[20], bufferRetorno[20];
-        for (int i = (d); i < numConsultas; i++)
+        for (int i = 0; i < maxConsultasDia; i++)
         {
+            int consultaId = i+(d*maxConsultasDia);
             // Obter a data atual
             time_t t = time(NULL);
             struct tm dataAtual = *localtime(&t);
 
             // Definir a data da consulta como a data atual
-            consultas[i].dataConsulta = dataAtual;
+            consultas[consultaId].dataConsulta = dataAtual;
 
             // Calcular a data de retorno (30 dias após a data da consulta)
             struct tm dataRetorno = dataAtual;
@@ -308,24 +315,24 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
             // Ajustar a data de retorno caso ultrapasse o limite do mês
             mktime(&dataRetorno); // Ajusta automaticamente o mês/ano se necessário
 
-            consultas[i].dataRetorno = dataRetorno; // Indica que o retorno foi agendado
+            consultas[consultaId].dataRetorno = dataRetorno; // Indica que o retorno foi agendado
             // Formatar datas da consulta e do retorno
-            strftime(bufferConsulta, sizeof(bufferConsulta), "%d/%m/%Y", &consultas[i].dataConsulta);
-            strftime(bufferRetorno, sizeof(bufferRetorno), "%d/%m/%Y", &consultas[i].dataRetorno);
+            strftime(bufferConsulta, sizeof(bufferConsulta), "%d/%m/%Y", &consultas[consultaId].dataConsulta);
+            strftime(bufferRetorno, sizeof(bufferRetorno), "%d/%m/%Y", &consultas[consultaId].dataRetorno);
             // Ignora consultas inválidas
-            if (consultas[i].pacienteId == 0 || consultas[i].medicoId == 0 || consultas[i].salaId == 0 || consultas[i].horario == 0)
+            if (consultas[consultaId].pacienteId == 0 || consultas[consultaId].medicoId == 0 || consultas[consultaId].salaId == 0 || consultas[consultaId].horario == 0)
             {
                 continue;
             }
 
-            const char *diaConsulta = obterDiaDaSemana(consultas[i].horario);
+            const char *diaConsulta = obterDiaDaSemana(consultas[consultaId].horario);
             if (strcmp(diaConsulta, diasDaSemana[d]) == 0)
             {
                 // Recupera o nome do paciente
                 char nomePaciente[50] = "Desconhecido";
                 for (int p = 0; p < numPacientes; p++)
                 {
-                    if (pacientes[p].id == consultas[i].pacienteId)
+                    if (pacientes[p].id == consultas[consultaId].pacienteId)
                     {
                         strcpy(nomePaciente, pacientes[p].nome);
                         break;
@@ -336,30 +343,30 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
                 char nomeMedico[50] = "Desconhecido";
                 for (int m = 0; m < numMedicos; m++)
                 {
-                    if (medicos[m].id == consultas[i].medicoId)
+                    if (medicos[m].id == consultas[consultaId].medicoId)
                     {
                         strcpy(nomeMedico, medicos[m].nome);
                         break;
                     }
                 }
 
-                int dias = consultas[i].horario % 24;
-                if (consultas[i].retorno != 0)
+                int dias = consultas[consultaId].horario % 24;
+                if (consultas[consultaId].retorno != 0)
                 {
-                    if(consultas[i].compareceu == 1){
+                    if(consultas[consultaId].compareceu == 1){
                     fprintf(arquivo, "Consulta %d: Paciente %d, Médico %d, Sala %d, Horário %d, Retorno em %d dias\n",
                             i + 1,
-                            consultas[i].pacienteId,
-                            consultas[i].medicoId,
-                            consultas[i].salaId,
+                            consultas[consultaId].pacienteId,
+                            consultas[consultaId].medicoId,
+                            consultas[consultaId].salaId,
                             dias,
-                            consultas[i].retorno);
+                            consultas[consultaId].retorno);
                     }else{
                         fprintf(arquivo, "Consulta %d: Paciente %d, Médico %d, Sala %d, Horário %d ( O paciente não compareceu )\n",
                         i + 1,
-                        consultas[i].pacienteId,
-                        consultas[i].medicoId,
-                        consultas[i].salaId,
+                        consultas[consultaId].pacienteId,
+                        consultas[consultaId].medicoId,
+                        consultas[consultaId].salaId,
                         dias
                         );
                     }

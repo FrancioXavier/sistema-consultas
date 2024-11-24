@@ -3,24 +3,26 @@
 Consultas Realizadas por Dia da Semana:
 
 Domingo:
-Consulta 1: Paciente 1, Médico 1, Sala 1, Horário 8, Retorno em 30 dias
+Consulta 1: Paciente 1, Médico 1, Sala 1, Horário 8 ( O paciente não compareceu )
 Consulta 2: Paciente 2, Médico 2, Sala 2, Horário 8, Retorno em 30 dias
-Consulta 3: Paciente 3, Médico 1, Sala 1, Horário 9, Retorno em 30 dias
-Consulta 4: Paciente 4, Médico 2, Sala 2, Horário 9, Retorno em 30 dias
-Consulta 5: Paciente 5, Médico 1, Sala 1, Horário 10, Retorno em 30 dias
-Consulta 6: Paciente 6, Médico 2, Sala 2, Horário 10, Retorno em 30 dias
-Consulta 7: Paciente 7, Médico 1, Sala 1, Horário 11, Retorno em 30 dias
-Consulta 8: Paciente 8, Médico 2, Sala 2, Horário 11, Retorno em 30 dias
-Consulta 9: Paciente 9, Médico 1, Sala 1, Horário 12, Retorno em 30 dias
-Consulta 10: Paciente 10, Médico 2, Sala 2, Horário 12, Retorno em 30 dias
-Consulta 11: Paciente 11, Médico 1, Sala 1, Horário 13, Retorno em 30 dias
-Consulta 12: Paciente 12, Médico 2, Sala 2, Horário 13, Retorno em 30 dias
-Consulta 13: Paciente 13, Médico 1, Sala 1, Horário 14, Retorno em 30 dias
-Consulta 14: Paciente 14, Médico 2, Sala 2, Horário 14, Retorno em 30 dias
-Consulta 15: Paciente 15, Médico 1, Sala 1, Horário 15, Retorno em 30 dias
-Consulta 16: Paciente 16, Médico 2, Sala 2, Horário 15, Retorno em 30 dias
-Consulta 17: Paciente 17, Médico 1, Sala 1, Horário 16, Retorno em 30 dias
-Consulta 18: Paciente 18, Médico 2, Sala 2, Horário 16, Retorno em 30 dias
+Consulta 3: Paciente 31, Médico 1, Sala 1, Horário 9 ( O paciente não compareceu )
+Consulta 4: Paciente 30, Médico 2, Sala 2, Horário 9 ( O paciente não compareceu )
+Consulta 5: Paciente 29, Médico 1, Sala 1, Horário 10, Retorno em 30 dias
+Consulta 6: Paciente 17, Médico 2, Sala 2, Horário 10 ( O paciente não compareceu )
+Consulta 7: Paciente 27, Médico 1, Sala 1, Horário 11, Retorno em 30 dias
+Consulta 8: Paciente 26, Médico 2, Sala 2, Horário 11 ( O paciente não compareceu )
+Consulta 9: Paciente 9, Médico 1, Sala 1, Horário 12 ( O paciente não compareceu )
+Consulta 10: Paciente 18, Médico 2, Sala 2, Horário 12 ( O paciente não compareceu )
+Consulta 11: Paciente 23, Médico 1, Sala 1, Horário 13 ( O paciente não compareceu )
+Consulta 12: Paciente 22, Médico 2, Sala 2, Horário 13, Retorno em 30 dias
+Consulta 13: Paciente 21, Médico 1, Sala 1, Horário 14, Retorno em 30 dias
+Consulta 14: Paciente 19, Médico 2, Sala 2, Horário 14, Retorno em 30 dias
+Consulta 15: Paciente 5, Médico 1, Sala 1, Horário 15 ( O paciente não compareceu )
+Consulta 16: Paciente 10, Médico 2, Sala 2, Horário 15, Retorno em 30 dias
+Consulta 17: Paciente 11, Médico 1, Sala 1, Horário 16, Retorno em 30 dias
+Consulta 18: Paciente 3, Médico 2, Sala 2, Horário 16, Retorno em 30 dias
+Consulta 19: Paciente 15, Médico 1, Sala 1, Horário 8, Retorno em 30 dias
+Consulta 20: Paciente 14, Médico 2, Sala 2, Horário 8, Retorno em 30 dias
 
 Segunda-feira:
   Nenhuma consulta agendada.
@@ -43,25 +45,24 @@ Sábado:
 
 === Consultas de retorno ===
 
-Consulta 19: Paciente: 1, Médico: 1, Sala: 1, dia e hora: 8:00, 24/12/2024 
-Consulta 20: Paciente: 2, Médico: 2, Sala: 2, dia e hora: 8:00, 24/12/2024 
-Consulta 21: Paciente: 3, Médico: 1, Sala: 1, dia e hora: 9:00, 24/12/2024 
-Consulta 22: Paciente: 4, Médico: 2, Sala: 2, dia e hora: 9:00, 24/12/2024 
-Consulta 23: Paciente: 5, Médico: 1, Sala: 1, dia e hora: 10:00, 24/12/2024 
-Consulta 24: Paciente: 6, Médico: 2, Sala: 2, dia e hora: 10:00, 24/12/2024 
-Consulta 25: Paciente: 7, Médico: 1, Sala: 1, dia e hora: 11:00, 24/12/2024 
-Consulta 26: Paciente: 8, Médico: 2, Sala: 2, dia e hora: 11:00, 24/12/2024 
-Consulta 27: Paciente: 9, Médico: 1, Sala: 1, dia e hora: 12:00, 24/12/2024 
-Consulta 28: Paciente: 10, Médico: 2, Sala: 2, dia e hora: 12:00, 24/12/2024 
-Consulta 29: Paciente: 11, Médico: 1, Sala: 1, dia e hora: 13:00, 24/12/2024 
-Consulta 30: Paciente: 12, Médico: 2, Sala: 2, dia e hora: 13:00, 24/12/2024 
-Consulta 31: Paciente: 13, Médico: 1, Sala: 1, dia e hora: 14:00, 24/12/2024 
-Consulta 32: Paciente: 14, Médico: 2, Sala: 2, dia e hora: 14:00, 24/12/2024 
-Consulta 33: Paciente: 15, Médico: 1, Sala: 1, dia e hora: 15:00, 24/12/2024 
-Consulta 34: Paciente: 16, Médico: 2, Sala: 2, dia e hora: 15:00, 24/12/2024 
-Consulta 35: Paciente: 17, Médico: 1, Sala: 1, dia e hora: 16:00, 24/12/2024 
-Consulta 36: Paciente: 18, Médico: 2, Sala: 2, dia e hora: 16:00, 24/12/2024 
+Consulta 33: Paciente: 2, Médico: 2, Sala: 2, dia e hora: 8:00, 24/12/2024 
+Consulta 34: Paciente: 29, Médico: 1, Sala: 1, dia e hora: 10:00, 24/12/2024 
+Consulta 35: Paciente: 27, Médico: 1, Sala: 1, dia e hora: 11:00, 24/12/2024 
+Consulta 36: Paciente: 22, Médico: 2, Sala: 2, dia e hora: 13:00, 24/12/2024 
+Consulta 37: Paciente: 21, Médico: 1, Sala: 1, dia e hora: 14:00, 24/12/2024 
+Consulta 38: Paciente: 19, Médico: 2, Sala: 2, dia e hora: 14:00, 24/12/2024 
+Consulta 39: Paciente: 10, Médico: 2, Sala: 2, dia e hora: 15:00, 24/12/2024 
+Consulta 40: Paciente: 11, Médico: 1, Sala: 1, dia e hora: 16:00, 24/12/2024 
+Consulta 41: Paciente: 3, Médico: 2, Sala: 2, dia e hora: 16:00, 24/12/2024 
+Consulta 42: Paciente: 15, Médico: 1, Sala: 1, dia e hora: 8:00, 24/12/2024 
+Consulta 43: Paciente: 14, Médico: 2, Sala: 2, dia e hora: 8:00, 24/12/2024 
+Consulta 44: Paciente: 13, Médico: 1, Sala: 1, dia e hora: 9:00, 24/12/2024 
+Consulta 45: Paciente: 6, Médico: 2, Sala: 2, dia e hora: 9:00, 24/12/2024 
+Consulta 46: Paciente: 7, Médico: 2, Sala: 2, dia e hora: 10:00, 24/12/2024 
+Consulta 47: Paciente: 28, Médico: 1, Sala: 1, dia e hora: 12:00, 24/12/2024 
+Consulta 48: Paciente: 32, Médico: 1, Sala: 1, dia e hora: 13:00, 24/12/2024 
+Consulta 49: Paciente: 8, Médico: 2, Sala: 2, dia e hora: 14:00, 24/12/2024 
 
 Resumo de Horas Trabalhadas:
-- Médico Dr_Silva (ID 1): 9 horas
-- Médico Dra_Ana (ID 2): 9 horas
+- Médico Dr_Silva (ID 1): 16 horas
+- Médico Dra_Ana (ID 2): 16 horas
