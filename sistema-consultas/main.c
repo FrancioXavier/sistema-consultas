@@ -49,6 +49,60 @@ typedef struct
     int compareceu;
 } Consulta;
 
+void trocar(Paciente *a, Paciente *b) {
+    Paciente temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void heapify(Paciente *pacientes, int n, int i) {
+    int maior = i;            // Raiz inicial
+    int esquerda = 2 * i + 1; // Filho à esquerda
+    int direita = 2 * i + 2;  // Filho à direita
+
+    // Verifica se o filho à esquerda é maior que a raiz
+    if (esquerda < n && pacientes[esquerda].prioridade > pacientes[maior].prioridade) {
+        maior = esquerda;
+    }
+
+    // Verifica se o filho à direita é maior que o maior atual
+    if (direita < n && pacientes[direita].prioridade > pacientes[maior].prioridade) {
+        maior = direita;
+    }
+
+    // Se o maior não for a raiz, troca e aplica heapify
+    if (maior != i) {
+        trocar(&pacientes[i], &pacientes[maior]);
+        heapify(pacientes, n, maior);
+    }
+}
+
+void construirHeap(Paciente *pacientes, int n) {
+    // Constrói a heap (max-heap) de baixo para cima
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        heapify(pacientes, n, i);
+    }
+}
+
+void ordenarPorPrioridade(Paciente *pacientes, int n) {
+    // Constrói a max-heap
+    construirHeap(pacientes, n);
+
+    // Extrai os elementos da heap
+    for (int i = n - 1; i >= 0; i--) {
+        // Move a raiz (maior elemento) para o final
+        trocar(&pacientes[0], &pacientes[i]);
+
+        // Reaplica heapify na sub-heap reduzida
+        heapify(pacientes, i, 0);
+    }
+
+    // Inverter o vetor para ter o maior no início
+    for (int i = 0; i < n / 2; i++) {
+        trocar(&pacientes[i], &pacientes[n - i - 1]);
+    }
+}
+
 // Função para ler dados
 void lerDados(Paciente *pacientes, int *numPacientes, Medico *medicos, int *numMedicos, Sala *salas, int *numSalas)
 {
@@ -412,6 +466,13 @@ int main()
 
     // Ler dados do arquivo
     lerDados(pacientes, &numPacientes, medicos, &numMedicos, salas, &numSalas);
+
+    // Ordenar pacientes por prioridade antes de alocar as consultas
+    ordenarPorPrioridade(pacientes, numPacientes);
+
+    for(int i = 0; i < numPacientes; i++){
+        printf("%d ", pacientes[i].id);
+    }
 
     // Alocar consultas
     alocarConsultas(pacientes, numPacientes, medicos, numMedicos, salas, numSalas, consultas, &numConsultas);

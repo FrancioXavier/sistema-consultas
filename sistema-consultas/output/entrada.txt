@@ -31,15 +31,12 @@ Pacientes:
 30 Maria 30 1.60 65 Febre_alta 2
 31 Maria 30 1.60 65 Febre_alta 2
 32 João 25 1.80 75 Dor_no_peito 1
-
 Salas:
 1 Sala_A
 2 Sala_B
-
 Especialidades:
 1 Cardiologia
 2 Clínica_Geral
-
 Médicos:
 1 Dr_Silva Cardiologia
 2 Dra_Ana Clínica_Geral
