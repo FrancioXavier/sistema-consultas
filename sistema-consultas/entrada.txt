@@ -31,6 +31,20 @@ Pacientes:
 30 Maria 30 1.60 65 Febre_alta 2
 31 Maria 30 1.60 65 Febre_alta 2
 32 João 25 1.80 75 Dor_no_peito 1
+33 Maria 30 1.60 65 Febre_alta 2
+34 João 25 1.80 75 Dor_no_peito 1
+35 Maria 30 1.60 65 Febre_alta 2
+36 Maria 30 1.60 65 Febre_alta 2
+37 Maria 30 1.60 65 Febre_alta 2
+38 João 25 1.80 75 Dor_no_peito 1
+39 Maria 30 1.60 65 Febre_alta 2
+40 Maria 30 1.60 65 Febre_alta 2
+41 Maria 30 1.60 65 Febre_alta 2
+42 João 25 1.80 75 Dor_no_peito 1
+43 Maria 30 1.60 65 Febre_alta 2
+44 Maria 30 1.60 65 Febre_alta 2
+45 Maria 30 1.60 65 Febre_alta 2
+46 João 25 1.80 75 Dor_no_peito 1
 Salas:
 1 Sala_A
 2 Sala_B
