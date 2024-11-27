@@ -1,42 +1,57 @@
 Pacientes:
-1 Maria 30 1.60 65 Febre_alta 2
-2 Maria 30 1.60 65 Febre_alta 2
-3 Maria 30 1.60 65 Febre_alta 2
-4 João 25 1.80 75 Dor_no_peito 1
-5 Maria 30 1.60 65 Febre_alta 2
-6 Maria 30 1.60 65 Febre_alta 2
-7 Maria 30 1.60 65 Febre_alta 2
-8 João 25 1.80 75 Dor_no_peito 1
-9 Maria 30 1.60 65 Febre_alta 2
-10 Maria 30 1.60 65 Febre_alta 2
-11 Maria 30 1.60 65 Febre_alta 2
-12 João 25 1.80 75 Dor_no_peito 1
-13 Maria 30 1.60 65 Febre_alta 2
-14 Maria 30 1.60 65 Febre_alta 2
-15 Maria 30 1.60 65 Febre_alta 2
-16 João 25 1.80 75 Dor_no_peito 1
-17 Maria 30 1.60 65 Febre_alta 2
-18 Maria 30 1.60 65 Febre_alta 2
-19 Maria 30 1.60 65 Febre_alta 2
-20 João 25 1.80 75 Dor_no_peito 1
-21 Maria 30 1.60 65 Febre_alta 2
-22 Maria 30 1.60 65 Febre_alta 2
-23 Maria 30 1.60 65 Febre_alta 2
-24 João 25 1.80 75 Dor_no_peito 1
-25 Maria 30 1.60 65 Febre_alta 2
-26 Maria 30 1.60 65 Febre_alta 2
-27 Maria 30 1.60 65 Febre_alta 2
-28 João 25 1.80 75 Dor_no_peito 1
-29 Maria 30 1.60 65 Febre_alta 2
-30 Maria 30 1.60 65 Febre_alta 2
-31 Maria 30 1.60 65 Febre_alta 2
-32 João 25 1.80 75 Dor_no_peito 1
+0 Francio 30 1.60 65 Febre_alta 2 0
+1 John 30 1.60 65 Febre_alta 2 0
+2 Maria 30 1.60 65 Febre_alta 2 0
+3 João 25 1.80 75 Dor_no_peito 1 1
+4 Clara 30 1.60 65 Febre_alta 2 0
+5 Roberto 30 1.60 65 Febre_alta 2 0
+6 Maria 30 1.60 65 Febre_alta 2 0
+7 Maria 30 1.60 65 Febre_alta 2 0
+8 João 25 1.80 75 Dor_no_peito 1 1
+9 Maria 30 1.60 65 Febre_alta 2 0
+10 Maria 30 1.60 65 Febre_alta 2 0
+11 Maria 30 1.60 65 Febre_alta 2 0
+12 João 25 1.80 75 Dor_no_peito 1 1
+13 Maria 30 1.60 65 Febre_alta 2 0
+14 Maria 30 1.60 65 Febre_alta 2 0
+15 Maria 30 1.60 65 Febre_alta 2 0
+16 João 25 1.80 75 Dor_no_peito 1 1
+17 Maria 30 1.60 65 Febre_alta 2 0
+18 Maria 30 1.60 65 Febre_alta 2 0
+19 Maria 30 1.60 65 Febre_alta 2 0
+20 João 25 1.80 75 Dor_no_peito 1 1
+21 Maria 30 1.60 65 Febre_alta 2 0
+22 Maria 30 1.60 65 Febre_alta 2 0
+23 Maria 30 1.60 65 Febre_alta 2 0
+24 João 25 1.80 75 Dor_no_peito 1 1
+25 Maria 30 1.60 65 Febre_alta 2 0
+26 Maria 30 1.60 65 Febre_alta 2 0
+27 Maria 30 1.60 65 Febre_alta 2 0
+28 João 25 1.80 75 Dor_no_peito 1 1
+29 Maria 30 1.60 65 Febre_alta 2 0
+30 Maria 30 1.60 65 Febre_alta 2 0
+31 Maria 30 1.60 65 Febre_alta 2 0
+32 João 25 1.80 75 Dor_no_peito 1 1
+33 Maria 30 1.60 65 Febre_alta 2 0
+34 João 25 1.80 75 Dor_no_peito 1 1
+35 Maria 30 1.60 65 Febre_alta 2 0
+36 Maria 30 1.60 65 Febre_alta 2 0
+37 Maria 30 1.60 65 Febre_alta 2 0
+38 João 25 1.80 75 Dor_no_peito 1 1
+39 Maria 30 1.60 65 Febre_alta 2 0
+40 Maria 30 1.60 65 Febre_alta 2 0
+41 Maria 30 1.60 65 Febre_alta 2 0
+42 João 25 1.80 75 Dor_no_peito 1 1
+43 Maria 30 1.60 65 Febre_alta 2 0
+44 Maria 30 1.60 65 Febre_alta 2 0
+45 Maria 30 1.60 65 Febre_alta 2 0
+46 João 25 1.80 75 Dor_no_peito 1 1
 Salas:
-1 Sala_A
-2 Sala_B
+0 Sala_A
+1 Sala_B
 Especialidades:
-1 Cardiologia
-2 Clínica_Geral
+0 Cardiologia
+1 Clínica_Geral
 Médicos:
-1 Dr_Silva Cardiologia
-2 Dra_Ana Clínica_Geral
+0 Dr_Silva Cardiologia
+1 Dra_Ana Clínica_Geral

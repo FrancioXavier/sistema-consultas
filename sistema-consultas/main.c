@@ -21,6 +21,7 @@ typedef struct
     float peso;
     char sintomas[100];
     int prioridade;
+    int especialidadeId;
 } Paciente;
 
 typedef struct
@@ -137,14 +138,15 @@ void lerDados(Paciente *pacientes, int *numPacientes, Medico *medicos, int *numM
             printf("Número máximo de pacientes excedido.\n");
             break;
         }
-        sscanf(linha, "%d %s %d %f %f %s %d",
+        sscanf(linha, "%d %s %d %f %f %s %d %d",
                &pacientes[*numPacientes].id,
                pacientes[*numPacientes].nome,
                &pacientes[*numPacientes].idade,
                &pacientes[*numPacientes].altura,
                &pacientes[*numPacientes].peso,
                pacientes[*numPacientes].sintomas,
-               &pacientes[*numPacientes].prioridade);
+               &pacientes[*numPacientes].prioridade,
+               &pacientes[*numPacientes].especialidadeId);
         (*numPacientes)++;
     }
 
@@ -233,6 +235,9 @@ void alocarConsultas(Paciente *pacientes, int numPacientes, Medico *medicos, int
             { // Horários de 8h às 16h.
                 for (int m = 0; m < numMedicos && !consultaAlocada; m++)
                 {
+                    if (pacientes[i].especialidadeId != medicos[m].especialidadeId) {
+                        continue;
+                    }
                     for (int s = 0; s < numSalas && !consultaAlocada; s++)
                     {
                         // Verifica se médico e sala estão disponíveis no horário.
@@ -278,7 +283,8 @@ void alocarConsultas(Paciente *pacientes, int numPacientes, Medico *medicos, int
         // Se o paciente comparece a consulta é decidido aleatoriamente
         for (int z = 0; z < (*numConsultas); z++)
         {
-            consultas[z].compareceu = rand() % 2;
+            int valor_aleatorio = rand() % 100;
+            consultas[z].compareceu = (valor_aleatorio < 5) ? 0 : 1;
         }
 
         // Caso não seja possível alocar a consulta.
@@ -339,7 +345,7 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
                 break;
             }
 
-            if (consultas[consultaId].compareceu == 1)
+            if (consultas[consultaId].compareceu)
             {
                 fprintf(arquivo, "Consulta %d: Paciente %s, Médico %s, Sala %s, %s as %d:00 \n\n",
                         i + 1,
@@ -351,9 +357,10 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
             }
             else
             {
-                fprintf(arquivo, "Consulta %d: Paciente %s, Médico %s, Sala %s, %s as %d:00 ( O paciente não compareceu )\n\n",
+                fprintf(arquivo, "Consulta %d: Paciente %s (ID %d), Médico %s, Sala %s, %s as %d:00 ( O paciente não compareceu )\n\n",
                         i + 1,
                         pacientes[consultas[consultaId].pacienteId].nome,
+                        pacientes[consultas[consultaId].pacienteId].id,
                         medicos[consultas[consultaId].medicoId].nome,
                         salas[consultas[consultaId].salaId].nome,
                         bufferConsulta,
