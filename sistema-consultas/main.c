@@ -194,8 +194,6 @@ void lerDados(Paciente *pacientes, int *numPacientes, Medico *medicos, int *numM
 
         medicos[*numMedicos].horasTrabalhadas = 0; // Inicializa horas trabalhadas
         (*numMedicos)++;
-
-        printf("%s", medicos[0].nome);
     }
 
     fclose(arquivo);
@@ -249,12 +247,20 @@ void alocarConsultas(Paciente *pacientes, int numPacientes, Medico *medicos, int
                                 .retorno = 30 // Retorno inicial 30 dias após a consulta
                             };
 
+                            // Obter a data atual
+                            time_t t = time(NULL);
+                            struct tm dataAtual = *localtime(&t);
+
+                            // Definir a data da consulta como a data atual
+                            dataAtual.tm_mday += d - 7;
+                            mktime(&dataAtual);
+                            novaConsulta.dataConsulta = dataAtual;
+
                             // Atualiza as matrizes de disponibilidade.
                             horariosMedicos[m][h][d] = 1;
                             horariosSalas[s][h][d] = 1;
 
                             novaConsulta.diaDaSemana = d;
-                            printf("%d ", h);
 
                             // Adiciona a consulta à lista.
                             consultas[(*numConsultas)++] = novaConsulta;
@@ -293,8 +299,10 @@ const char *obterDiaDaSemana(int horario)
 }
 
 // Função ajustada para gerar relatório
-void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int numMedicos, Paciente *pacientes, int numPacientes)
+void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int numMedicos, Paciente *pacientes, int numPacientes, Sala *salas)
 {
+
+    char bufferConsulta[20], bufferRetorno[20];
     FILE *arquivo = fopen("relatorio.txt", "w");
     if (!arquivo)
     {
@@ -313,8 +321,6 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
     { // Itera pelos dias úteis
         fprintf(arquivo, "\n%s:\n", diasDaSemana[d]);
         int consultasNoDia = 0;
-
-        char bufferConsulta[20], bufferRetorno[20];
         for (int i = 0; i < maxConsultasDia; i++)
         {
             int consultaId = i + (d * maxConsultasDia);
@@ -323,53 +329,37 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
             {
                 continue;
             }
-            printf("%d ", consultas[consultaId].horario);
-            
-            // Obter a data atual
-            time_t t = time(NULL);
-            struct tm dataAtual = *localtime(&t);
-
-            // Definir a data da consulta como a data atual
-            dataAtual.tm_mday += d;
-            mktime(&dataAtual);
-            consultas[consultaId].dataConsulta = dataAtual;
-
-            // Calcular a data de retorno (30 dias após a data da consulta)
-            struct tm dataRetorno = dataAtual;
-            dataRetorno.tm_mday += 30;
-
-            // Ajustar a data de retorno caso ultrapasse o limite do mês
-            mktime(&dataRetorno); // Ajusta automaticamente o mês/ano se necessário
-
-            consultas[consultaId].dataRetorno = dataRetorno; // Indica que o retorno foi agendado
-            // Formatar datas da consulta e do retorno
             strftime(bufferConsulta, sizeof(bufferConsulta), "%d/%m/%Y", &consultas[consultaId].dataConsulta);
-            strftime(bufferRetorno, sizeof(bufferRetorno), "%d/%m/%Y", &consultas[consultaId].dataRetorno);
 
             const char *diaConsulta = obterDiaDaSemana(consultas[consultaId].horario);
 
             int dias = consultas[consultaId].horario % 24;
-            
-                if (consultas[consultaId].compareceu == 1)
-                {
-                    fprintf(arquivo, "Consulta %d: Paciente %s, Médico %s, Sala %d, Horário %d, Retorno em %d dias\n",
-                            i + 1,
-                            pacientes[consultas[consultaId].pacienteId].nome,
-                            medicos[consultas[consultaId].medicoId].nome,
-                            consultas[consultaId].salaId,
-                            dias,
-                            consultas[consultaId].retorno);
-                }
-                else
-                {
-                    fprintf(arquivo, "Consulta %d: Paciente %s, Médico %s, Sala %d, Horário %d ( O paciente não compareceu )\n",
-                            i + 1,
-                            pacientes[consultas[consultaId].pacienteId].nome,
-                            medicos[consultas[consultaId].medicoId].nome,
-                            consultas[consultaId].salaId,
-                            dias);
-                }
-                consultasNoDia++;
+
+            if(consultas[consultaId].horario == 0 && consultas[consultaId].salaId == 0 || consultas[consultaId].retorno == 0) {
+                break;
+            }
+
+            if (consultas[consultaId].compareceu == 1)
+            {
+                fprintf(arquivo, "Consulta %d: Paciente %s, Médico %s, Sala %s, %s as %d:00 \n\n",
+                        i + 1,
+                        pacientes[consultas[consultaId].pacienteId].nome,
+                        medicos[consultas[consultaId].medicoId].nome,
+                        salas[consultas[consultaId].salaId].nome,
+                        bufferConsulta,
+                        dias);
+            }
+            else
+            {
+                fprintf(arquivo, "Consulta %d: Paciente %s, Médico %s, Sala %s, %s as %d:00 ( O paciente não compareceu )\n\n",
+                        i + 1,
+                        pacientes[consultas[consultaId].pacienteId].nome,
+                        medicos[consultas[consultaId].medicoId].nome,
+                        salas[consultas[consultaId].salaId].nome,
+                        bufferConsulta,
+                        dias);
+            }
+            consultasNoDia++;
         }
 
         if (consultasNoDia == 0)
@@ -379,22 +369,20 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
     }
 
     fprintf(arquivo, "\n\n=== Consultas de retorno ===\n\n");
-    char bufferConsulta[20], bufferRetorno[20];
     for (int i = 0; i < numConsultas; i++)
     {
         // Formatar datas da consulta e do retorno
-        strftime(bufferConsulta, sizeof(bufferConsulta), "%d/%m/%Y", &consultas[i].dataConsulta);
-        strftime(bufferRetorno, sizeof(bufferRetorno), "%d/%m/%Y", &consultas[i].dataRetorno);
+        strftime(bufferRetorno, sizeof(bufferRetorno), "%d/%m/%Y", &consultas[i].dataConsulta);
 
         int horario = consultas[i].horario % 24;
         int dias = consultas[i].horario / 24;
         if (consultas[i].retorno == 0)
         {
-            fprintf(arquivo, "Consulta %d: Paciente: %d, Médico: %d, Sala: %d, dia e hora: %d:00, %s \n",
+            fprintf(arquivo, "Consulta %d: Paciente: %s, Médico: %s, Sala: %s, dia e hora: %d:00, %s \n\n",
                     i + 1,
-                    consultas[i].pacienteId,
-                    consultas[i].medicoId,
-                    consultas[i].salaId,
+                    pacientes[consultas[i].pacienteId].nome,
+                    medicos[consultas[i].medicoId].nome,
+                    salas[consultas[i].salaId].nome,
                     horario,
                     bufferRetorno);
         }
@@ -422,13 +410,7 @@ void gerenciarRetornos(Consulta *consultas, int *numConsultas, int maxConsultas)
         // Verificar se a consulta original tem um retorno agendado
         if (consultas[i].retorno != 0 && consultas[i].compareceu)
         {
-            // Calcular data de retorno: adicionar 30 dias à data da consulta
-            consultas[i].dataRetorno = consultas[i].dataConsulta; // Copiar data original
-            consultas[i].dataRetorno.tm_mday += 30;
-
-            // Ajustar para uma data válida
-            mktime(&consultas[i].dataRetorno); // Normaliza a data (ajusta mês e ano automaticamente)
-            // Criar uma nova consulta de retorno
+            // Formatar datas da consulta e do retorno
             if (*numConsultas < maxConsultas)
             {
                 Consulta novaConsulta = {
@@ -438,6 +420,14 @@ void gerenciarRetornos(Consulta *consultas, int *numConsultas, int maxConsultas)
                     .horario = consultas[i].horario + (consultas[i].retorno * 24), // 30 dias em horas
                     .retorno = 0                                                   // Retorno do retorno não será definido
                 };
+
+                // Obter a data atual
+                struct tm dataAtual = consultas[i].dataConsulta;
+
+                // Definir a data da consulta como a data atual
+                dataAtual.tm_mday += 30;
+                mktime(&dataAtual);
+                novaConsulta.dataConsulta = dataAtual;
 
                 // Adicionar a nova consulta à lista
                 consultas[(*numConsultas)++] = novaConsulta;
@@ -481,7 +471,7 @@ int main()
     gerenciarRetornos(consultas, &numConsultas, MAX_CONSULTAS);
 
     // Gerar relatório
-    gerarRelatorio(consultas, numConsultas, medicos, numMedicos, pacientes, numPacientes);
+    gerarRelatorio(consultas, numConsultas, medicos, numMedicos, pacientes, numPacientes, salas);
 
     return 0;
 }

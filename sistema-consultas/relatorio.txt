@@ -3,56 +3,104 @@
 Consultas Realizadas por Dia da Semana:
 
 Domingo:
-Consulta 1: Paciente Maria, Médico Dr_Silva, Sala 1, Horário 8, Retorno em 30 dias
-Consulta 2: Paciente Maria, Médico Dra_Ana, Sala 2, Horário 8 ( O paciente não compareceu )
-Consulta 3: Paciente João, Médico Dr_Silva, Sala 1, Horário 9 ( O paciente não compareceu )
-Consulta 4: Paciente João, Médico Dra_Ana, Sala 2, Horário 9 ( O paciente não compareceu )
-Consulta 5: Paciente João, Médico Dr_Silva, Sala 1, Horário 10, Retorno em 30 dias
-Consulta 6: Paciente Maria, Médico Dra_Ana, Sala 2, Horário 10, Retorno em 30 dias
-Consulta 7: Paciente João, Médico Dr_Silva, Sala 1, Horário 11 ( O paciente não compareceu )
-Consulta 8: Paciente Maria, Médico Dra_Ana, Sala 2, Horário 11, Retorno em 30 dias
-Consulta 9: Paciente João, Médico Dr_Silva, Sala 1, Horário 12, Retorno em 30 dias
-Consulta 10: Paciente João, Médico Dra_Ana, Sala 2, Horário 12 ( O paciente não compareceu )
-Consulta 11: Paciente Maria, Médico Dr_Silva, Sala 1, Horário 13, Retorno em 30 dias
-Consulta 12: Paciente Maria, Médico Dra_Ana, Sala 2, Horário 13 ( O paciente não compareceu )
-Consulta 13: Paciente João, Médico Dr_Silva, Sala 1, Horário 14 ( O paciente não compareceu )
-Consulta 14: Paciente João, Médico Dra_Ana, Sala 2, Horário 14 ( O paciente não compareceu )
-Consulta 15: Paciente Maria, Médico Dr_Silva, Sala 1, Horário 15, Retorno em 30 dias
-Consulta 16: Paciente Maria, Médico Dra_Ana, Sala 2, Horário 15, Retorno em 30 dias
-Consulta 17: Paciente Maria, Médico Dr_Silva, Sala 1, Horário 16 ( O paciente não compareceu )
-Consulta 18: Paciente Maria, Médico Dra_Ana, Sala 2, Horário 16 ( O paciente não compareceu )
+Consulta 1: Paciente Francio, Médico Dr_Silva, Sala Sala_A, 20/11/2024 as 8:00 
+
+Consulta 2: Paciente John, Médico Dra_Ana, Sala Sala_B, 20/11/2024 as 8:00 ( O paciente não compareceu )
+
+Consulta 3: Paciente João, Médico Dr_Silva, Sala Sala_A, 20/11/2024 as 9:00 
+
+Consulta 4: Paciente João, Médico Dra_Ana, Sala Sala_B, 20/11/2024 as 9:00 ( O paciente não compareceu )
+
+Consulta 5: Paciente João, Médico Dr_Silva, Sala Sala_A, 20/11/2024 as 10:00 
+
+Consulta 6: Paciente Maria, Médico Dra_Ana, Sala Sala_B, 20/11/2024 as 10:00 
+
+Consulta 7: Paciente Maria, Médico Dr_Silva, Sala Sala_A, 20/11/2024 as 11:00 ( O paciente não compareceu )
+
+Consulta 8: Paciente João, Médico Dra_Ana, Sala Sala_B, 20/11/2024 as 11:00 
+
+Consulta 9: Paciente João, Médico Dr_Silva, Sala Sala_A, 20/11/2024 as 12:00 ( O paciente não compareceu )
+
+Consulta 10: Paciente Maria, Médico Dra_Ana, Sala Sala_B, 20/11/2024 as 12:00 ( O paciente não compareceu )
+
+Consulta 11: Paciente João, Médico Dr_Silva, Sala Sala_A, 20/11/2024 as 13:00 ( O paciente não compareceu )
+
+Consulta 12: Paciente Maria, Médico Dra_Ana, Sala Sala_B, 20/11/2024 as 13:00 ( O paciente não compareceu )
+
+Consulta 13: Paciente Maria, Médico Dr_Silva, Sala Sala_A, 20/11/2024 as 14:00 ( O paciente não compareceu )
+
+Consulta 14: Paciente João, Médico Dra_Ana, Sala Sala_B, 20/11/2024 as 14:00 
+
+Consulta 15: Paciente João, Médico Dr_Silva, Sala Sala_A, 20/11/2024 as 15:00 
+
+Consulta 16: Paciente Maria, Médico Dra_Ana, Sala Sala_B, 20/11/2024 as 15:00 
+
+Consulta 17: Paciente Maria, Médico Dr_Silva, Sala Sala_A, 20/11/2024 as 16:00 
+
+Consulta 18: Paciente Maria, Médico Dra_Ana, Sala Sala_B, 20/11/2024 as 16:00 ( O paciente não compareceu )
+
 
 Segunda-feira:
-Consulta 1: Paciente Maria, Médico Dr_Silva, Sala 1, Horário 8 ( O paciente não compareceu )
-Consulta 2: Paciente Maria, Médico Dra_Ana, Sala 2, Horário 8 ( O paciente não compareceu )
-Consulta 3: Paciente Maria, Médico Dr_Silva, Sala 1, Horário 9 ( O paciente não compareceu )
-Consulta 4: Paciente Maria, Médico Dra_Ana, Sala 2, Horário 9 ( O paciente não compareceu )
-Consulta 5: Paciente João, Médico Dr_Silva, Sala 1, Horário 10 ( O paciente não compareceu )
-Consulta 6: Paciente Maria, Médico Dra_Ana, Sala 2, Horário 10 ( O paciente não compareceu )
-Consulta 7: Paciente Maria, Médico Dr_Silva, Sala 1, Horário 11, Retorno em 30 dias
-Consulta 8: Paciente Maria, Médico Dra_Ana, Sala 2, Horário 11 ( O paciente não compareceu )
-Consulta 9: Paciente Maria, Médico Dr_Silva, Sala 1, Horário 12 ( O paciente não compareceu )
-Consulta 10: Paciente Maria, Médico Dra_Ana, Sala 2, Horário 12, Retorno em 30 dias
-Consulta 11: Paciente Maria, Médico Dr_Silva, Sala 1, Horário 13, Retorno em 30 dias
-Consulta 12: Paciente Maria, Médico Dra_Ana, Sala 2, Horário 13 ( O paciente não compareceu )
-Consulta 13: Paciente Maria, Médico Dr_Silva, Sala 1, Horário 14, Retorno em 30 dias
-Consulta 14: Paciente Maria, Médico Dra_Ana, Sala 2, Horário 14, Retorno em 30 dias
-Consulta 15: Paciente Maria, Médico Dr_Silva, Sala 1, Horário 15, Retorno em 30 dias
-Consulta 16: Paciente Maria, Médico Dra_Ana, Sala 2, Horário 15, Retorno em 30 dias
-Consulta 17: Paciente Maria, Médico Dr_Silva, Sala 1, Horário 16, Retorno em 30 dias
-Consulta 18: Paciente Maria, Médico Dra_Ana, Sala 2, Horário 16, Retorno em 30 dias
+Consulta 1: Paciente Roberto, Médico Dr_Silva, Sala Sala_A, 21/11/2024 as 8:00 ( O paciente não compareceu )
+
+Consulta 2: Paciente Maria, Médico Dra_Ana, Sala Sala_B, 21/11/2024 as 8:00 ( O paciente não compareceu )
+
+Consulta 3: Paciente Maria, Médico Dr_Silva, Sala Sala_A, 21/11/2024 as 9:00 
+
+Consulta 4: Paciente Maria, Médico Dra_Ana, Sala Sala_B, 21/11/2024 as 9:00 
+
+Consulta 5: Paciente Maria, Médico Dr_Silva, Sala Sala_A, 21/11/2024 as 10:00 
+
+Consulta 6: Paciente João, Médico Dra_Ana, Sala Sala_B, 21/11/2024 as 10:00 ( O paciente não compareceu )
+
+Consulta 7: Paciente Maria, Médico Dr_Silva, Sala Sala_A, 21/11/2024 as 11:00 
+
+Consulta 8: Paciente Maria, Médico Dra_Ana, Sala Sala_B, 21/11/2024 as 11:00 
+
+Consulta 9: Paciente Maria, Médico Dr_Silva, Sala Sala_A, 21/11/2024 as 12:00 
+
+Consulta 10: Paciente Maria, Médico Dra_Ana, Sala Sala_B, 21/11/2024 as 12:00 ( O paciente não compareceu )
+
+Consulta 11: Paciente Maria, Médico Dr_Silva, Sala Sala_A, 21/11/2024 as 13:00 ( O paciente não compareceu )
+
+Consulta 12: Paciente Maria, Médico Dra_Ana, Sala Sala_B, 21/11/2024 as 13:00 
+
+Consulta 13: Paciente Maria, Médico Dr_Silva, Sala Sala_A, 21/11/2024 as 14:00 
+
+Consulta 14: Paciente Maria, Médico Dra_Ana, Sala Sala_B, 21/11/2024 as 14:00 ( O paciente não compareceu )
+
+Consulta 15: Paciente Maria, Médico Dr_Silva, Sala Sala_A, 21/11/2024 as 15:00 
+
+Consulta 16: Paciente Maria, Médico Dra_Ana, Sala Sala_B, 21/11/2024 as 15:00 ( O paciente não compareceu )
+
+Consulta 17: Paciente Maria, Médico Dr_Silva, Sala Sala_A, 21/11/2024 as 16:00 
+
+Consulta 18: Paciente Maria, Médico Dra_Ana, Sala Sala_B, 21/11/2024 as 16:00 
+
 
 Terça-feira:
-Consulta 1: Paciente Maria, Médico Dr_Silva, Sala 1, Horário 8 ( O paciente não compareceu )
-Consulta 2: Paciente Maria, Médico Dra_Ana, Sala 2, Horário 8, Retorno em 30 dias
-Consulta 3: Paciente Maria, Médico Dr_Silva, Sala 1, Horário 9 ( O paciente não compareceu )
-Consulta 4: Paciente João, Médico Dra_Ana, Sala 2, Horário 9, Retorno em 30 dias
-Consulta 5: Paciente Maria, Médico Dr_Silva, Sala 1, Horário 10, Retorno em 30 dias
-Consulta 6: Paciente João, Médico Dra_Ana, Sala 2, Horário 10, Retorno em 30 dias
-Consulta 7: Paciente Maria, Médico Dr_Silva, Sala 1, Horário 11, Retorno em 30 dias
-Consulta 8: Paciente João, Médico Dra_Ana, Sala 2, Horário 11 ( O paciente não compareceu )
-Consulta 9: Paciente , Médico Dr_Silva, Sala 1, Horário 12, Retorno em 30 dias
-Consulta 10: Paciente Maria, Médico Dra_Ana, Sala 2, Horário 12 ( O paciente não compareceu )
+Consulta 1: Paciente Maria, Médico Dr_Silva, Sala Sala_A, 22/11/2024 as 8:00 ( O paciente não compareceu )
+
+Consulta 2: Paciente Maria, Médico Dra_Ana, Sala Sala_B, 22/11/2024 as 8:00 
+
+Consulta 3: Paciente Maria, Médico Dr_Silva, Sala Sala_A, 22/11/2024 as 9:00 ( O paciente não compareceu )
+
+Consulta 4: Paciente Maria, Médico Dra_Ana, Sala Sala_B, 22/11/2024 as 9:00 ( O paciente não compareceu )
+
+Consulta 5: Paciente Maria, Médico Dr_Silva, Sala Sala_A, 22/11/2024 as 10:00 ( O paciente não compareceu )
+
+Consulta 6: Paciente João, Médico Dra_Ana, Sala Sala_B, 22/11/2024 as 10:00 ( O paciente não compareceu )
+
+Consulta 7: Paciente João, Médico Dr_Silva, Sala Sala_A, 22/11/2024 as 11:00 
+
+Consulta 8: Paciente Maria, Médico Dra_Ana, Sala Sala_B, 22/11/2024 as 11:00 ( O paciente não compareceu )
+
+Consulta 9: Paciente Clara, Médico Dr_Silva, Sala Sala_A, 22/11/2024 as 12:00 ( O paciente não compareceu )
+
+Consulta 10: Paciente João, Médico Dra_Ana, Sala Sala_B, 22/11/2024 as 12:00 
+
+Consulta 11: Paciente Maria, Médico Dr_Silva, Sala Sala_A, 22/11/2024 as 13:00 ( O paciente não compareceu )
+
 
 Quarta-feira:
   Nenhuma consulta agendada.
@@ -69,30 +117,53 @@ Sábado:
 
 === Consultas de retorno ===
 
-Consulta 47: Paciente: 1, Médico: 1, Sala: 1, dia e hora: 8:00,  
-Consulta 48: Paciente: 43, Médico: 1, Sala: 1, dia e hora: 10:00,  
-Consulta 49: Paciente: 33, Médico: 2, Sala: 2, dia e hora: 10:00,  
-Consulta 50: Paciente: 17, Médico: 2, Sala: 2, dia e hora: 11:00,  
-Consulta 51: Paciente: 39, Médico: 1, Sala: 1, dia e hora: 12:00,  
-Consulta 52: Paciente: 9, Médico: 1, Sala: 1, dia e hora: 13:00,  
-Consulta 53: Paciente: 19, Médico: 1, Sala: 1, dia e hora: 15:00,  
-Consulta 54: Paciente: 5, Médico: 2, Sala: 2, dia e hora: 15:00,  
-Consulta 55: Paciente: 11, Médico: 1, Sala: 1, dia e hora: 11:00,  
-Consulta 56: Paciente: 3, Médico: 2, Sala: 2, dia e hora: 12:00,  
-Consulta 57: Paciente: 6, Médico: 1, Sala: 1, dia e hora: 13:00,  
-Consulta 58: Paciente: 13, Médico: 1, Sala: 1, dia e hora: 14:00,  
-Consulta 59: Paciente: 7, Médico: 2, Sala: 2, dia e hora: 14:00,  
-Consulta 60: Paciente: 14, Médico: 1, Sala: 1, dia e hora: 15:00,  
-Consulta 61: Paciente: 15, Médico: 2, Sala: 2, dia e hora: 15:00,  
-Consulta 62: Paciente: 20, Médico: 1, Sala: 1, dia e hora: 16:00,  
-Consulta 63: Paciente: 16, Médico: 2, Sala: 2, dia e hora: 16:00,  
-Consulta 64: Paciente: 28, Médico: 2, Sala: 2, dia e hora: 8:00,  
-Consulta 65: Paciente: 42, Médico: 2, Sala: 2, dia e hora: 9:00,  
-Consulta 66: Paciente: 8, Médico: 1, Sala: 1, dia e hora: 10:00,  
-Consulta 67: Paciente: 38, Médico: 2, Sala: 2, dia e hora: 10:00,  
-Consulta 68: Paciente: 12, Médico: 1, Sala: 1, dia e hora: 11:00,  
-Consulta 69: Paciente: 46, Médico: 1, Sala: 1, dia e hora: 12:00,  
+Consulta 48: Paciente: Francio, Médico: Dr_Silva, Sala: Sala_A, dia e hora: 8:00, 20/12/2024 
+
+Consulta 49: Paciente: João, Médico: Dr_Silva, Sala: Sala_A, dia e hora: 9:00, 20/12/2024 
+
+Consulta 50: Paciente: João, Médico: Dr_Silva, Sala: Sala_A, dia e hora: 10:00, 20/12/2024 
+
+Consulta 51: Paciente: Maria, Médico: Dra_Ana, Sala: Sala_B, dia e hora: 10:00, 20/12/2024 
+
+Consulta 52: Paciente: João, Médico: Dra_Ana, Sala: Sala_B, dia e hora: 11:00, 20/12/2024 
+
+Consulta 53: Paciente: João, Médico: Dra_Ana, Sala: Sala_B, dia e hora: 14:00, 20/12/2024 
+
+Consulta 54: Paciente: João, Médico: Dr_Silva, Sala: Sala_A, dia e hora: 15:00, 20/12/2024 
+
+Consulta 55: Paciente: Maria, Médico: Dra_Ana, Sala: Sala_B, dia e hora: 15:00, 20/12/2024 
+
+Consulta 56: Paciente: Maria, Médico: Dr_Silva, Sala: Sala_A, dia e hora: 16:00, 20/12/2024 
+
+Consulta 57: Paciente: Maria, Médico: Dr_Silva, Sala: Sala_A, dia e hora: 9:00, 21/12/2024 
+
+Consulta 58: Paciente: Maria, Médico: Dra_Ana, Sala: Sala_B, dia e hora: 9:00, 21/12/2024 
+
+Consulta 59: Paciente: Maria, Médico: Dr_Silva, Sala: Sala_A, dia e hora: 10:00, 21/12/2024 
+
+Consulta 60: Paciente: Maria, Médico: Dr_Silva, Sala: Sala_A, dia e hora: 11:00, 21/12/2024 
+
+Consulta 61: Paciente: Maria, Médico: Dra_Ana, Sala: Sala_B, dia e hora: 11:00, 21/12/2024 
+
+Consulta 62: Paciente: Maria, Médico: Dr_Silva, Sala: Sala_A, dia e hora: 12:00, 21/12/2024 
+
+Consulta 63: Paciente: Maria, Médico: Dra_Ana, Sala: Sala_B, dia e hora: 13:00, 21/12/2024 
+
+Consulta 64: Paciente: Maria, Médico: Dr_Silva, Sala: Sala_A, dia e hora: 14:00, 21/12/2024 
+
+Consulta 65: Paciente: Maria, Médico: Dr_Silva, Sala: Sala_A, dia e hora: 15:00, 21/12/2024 
+
+Consulta 66: Paciente: Maria, Médico: Dr_Silva, Sala: Sala_A, dia e hora: 16:00, 21/12/2024 
+
+Consulta 67: Paciente: Maria, Médico: Dra_Ana, Sala: Sala_B, dia e hora: 16:00, 21/12/2024 
+
+Consulta 68: Paciente: Maria, Médico: Dra_Ana, Sala: Sala_B, dia e hora: 8:00, 22/12/2024 
+
+Consulta 69: Paciente: João, Médico: Dr_Silva, Sala: Sala_A, dia e hora: 11:00, 22/12/2024 
+
+Consulta 70: Paciente: João, Médico: Dra_Ana, Sala: Sala_B, dia e hora: 12:00, 22/12/2024 
+
 
 Resumo de Horas Trabalhadas:
-- Médico Dr_Silva (ID 1): 23 horas
-- Médico Dra_Ana (ID 2): 23 horas
+- Médico Dr_Silva (ID 0): 24 horas
+- Médico Dra_Ana (ID 1): 23 horas
