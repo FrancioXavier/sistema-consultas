@@ -59,18 +59,22 @@ typedef struct
     int diaDaSemana;
 } Consulta;
 
-void inicializarFila(filaPacientes *fila) {
+void inicializarFila(filaPacientes *fila)
+{
     fila->ini = 0;
     fila->fim = -1;
     fila->tamanho = 0;
 }
 
-int filaVazia(filaPacientes *fila) {
+int filaVazia(filaPacientes *fila)
+{
     return fila->tamanho == 0;
 }
 
-void inserirNaFila(filaPacientes *fila, Paciente paciente){
-    if (fila->tamanho >= MAX_PACIENTES) {
+void inserirNaFila(filaPacientes *fila, Paciente paciente)
+{
+    if (fila->tamanho >= MAX_PACIENTES)
+    {
         printf("Erro: a fila está cheia.\n");
         return;
     }
@@ -79,8 +83,10 @@ void inserirNaFila(filaPacientes *fila, Paciente paciente){
     fila->tamanho++;
 }
 
-Paciente removerDaFila(filaPacientes *fila) {
-    if (filaVazia(fila)) {
+Paciente removerDaFila(filaPacientes *fila)
+{
+    if (filaVazia(fila))
+    {
         printf("Erro: a fila está vazia.\n");
         Paciente pacienteVazio = {0}; // Retorna um paciente "vazio" em caso de erro
         return pacienteVazio;
@@ -91,15 +97,18 @@ Paciente removerDaFila(filaPacientes *fila) {
     return paciente;
 }
 
-void imprimirFilaPacientes(filaPacientes *fila) {
-    if (filaVazia(fila)) {
+void imprimirFilaPacientes(filaPacientes *fila)
+{
+    if (filaVazia(fila))
+    {
         printf("A fila de pacientes está vazia.\n");
         return;
     }
 
     printf("=== Fila de Pacientes ===\n");
     int i = fila->ini;
-    for (int j = 0; j < fila->tamanho; j++) {
+    for (int j = 0; j < fila->tamanho; j++)
+    {
         Paciente paciente = fila->elementos[i];
         printf("Paciente ID: %d, Nome: %s, Idade: %d, Prioridade: %d, Especialidade ID: %d\n",
                paciente.id, paciente.nome, paciente.idade, paciente.prioridade, paciente.especialidadeId);
@@ -108,56 +117,66 @@ void imprimirFilaPacientes(filaPacientes *fila) {
     printf("\n");
 }
 
-void imprimirMedicos(Medico *medicos, int numMedicos) {
-    if (numMedicos == 0) {
+void imprimirMedicos(Medico *medicos, int numMedicos)
+{
+    if (numMedicos == 0)
+    {
         printf("Nenhum médico cadastrado.\n");
         return;
     }
 
     printf("=== Médicos ===\n");
-    for (int i = 0; i < numMedicos; i++) {
+    for (int i = 0; i < numMedicos; i++)
+    {
         printf("Médico ID: %d, Nome: %s, Especialidade ID: %d, Horas Trabalhadas: %d\n",
                medicos[i].id, medicos[i].nome, medicos[i].especialidadeId, medicos[i].horasTrabalhadas);
     }
     printf("\n");
 }
 
-void imprimirSalas(Sala *salas, int numSalas) {
-    if (numSalas == 0) {
+void imprimirSalas(Sala *salas, int numSalas)
+{
+    if (numSalas == 0)
+    {
         printf("Nenhuma sala cadastrada.\n");
         return;
     }
 
     printf("=== Salas ===\n");
-    for (int i = 0; i < numSalas; i++) {
+    for (int i = 0; i < numSalas; i++)
+    {
         printf("Sala ID: %d, Nome: %s\n", salas[i].id, salas[i].nome);
     }
     printf("\n");
 }
 
-void heapifyFila(filaPacientes *fila, int n, int i) {
+void heapifyFila(filaPacientes *fila, int n, int i)
+{
     int maior = i;
     int esquerda = 2 * i + 1;
     int direita = 2 * i + 2;
 
     // Ajuste para trabalhar com fila circular
-    int indiceAtual = (fila->ini+ i) % fila->tamanho;
-    int indiceEsquerda = (fila->ini+ esquerda) % fila->tamanho;
-    int indiceDireita = (fila->ini+ direita) % fila->tamanho;
+    int indiceAtual = (fila->ini + i) % fila->tamanho;
+    int indiceEsquerda = (fila->ini + esquerda) % fila->tamanho;
+    int indiceDireita = (fila->ini + direita) % fila->tamanho;
 
     // Verifica se o filho à esquerda tem maior prioridade
-    if (esquerda < n && fila->elementos[indiceEsquerda].prioridade > fila->elementos[indiceAtual].prioridade) {
+    if (esquerda < n && fila->elementos[indiceEsquerda].prioridade > fila->elementos[indiceAtual].prioridade)
+    {
         maior = esquerda;
     }
 
     // Verifica se o filho à direita tem maior prioridade
-    if (direita < n && fila->elementos[indiceDireita].prioridade > fila->elementos[(fila->ini+ maior) % fila->tamanho].prioridade) {
+    if (direita < n && fila->elementos[indiceDireita].prioridade > fila->elementos[(fila->ini + maior) % fila->tamanho].prioridade)
+    {
         maior = direita;
     }
 
     // Se o maior não for a raiz, troque e reaplique o heapify
-    if (maior != i) {
-        int indiceMaior = (fila->ini+ maior) % fila->tamanho;
+    if (maior != i)
+    {
+        int indiceMaior = (fila->ini + maior) % fila->tamanho;
         Paciente temp = fila->elementos[indiceAtual];
         fila->elementos[indiceAtual] = fila->elementos[indiceMaior];
         fila->elementos[indiceMaior] = temp;
@@ -166,18 +185,22 @@ void heapifyFila(filaPacientes *fila, int n, int i) {
     }
 }
 
-void construirHeapFila(filaPacientes *fila) {
+void construirHeapFila(filaPacientes *fila)
+{
     int n = fila->tamanho;
-    for (int i = n / 2 - 1; i >= 0; i--) {
+    for (int i = n / 2 - 1; i >= 0; i--)
+    {
         heapifyFila(fila, n, i);
     }
 }
 
-void ordenarFilaPorPrioridade(filaPacientes *fila) {
+void ordenarFilaPorPrioridade(filaPacientes *fila)
+{
     construirHeapFila(fila);
 
     // Extraindo os elementos da heap
-    for (int i = fila->tamanho - 1; i > 0; i--) {
+    for (int i = fila->tamanho - 1; i > 0; i--)
+    {
         int indiceInicio = fila->ini % fila->tamanho;
         int indiceAtual = (fila->ini + i) % fila->tamanho;
 
@@ -196,7 +219,8 @@ void lerDados(filaPacientes *filaPacientes, Medico *medicos, int *numMedicos, Sa
 {
     int numPacientes = 0;
     FILE *arquivo = fopen("entrada.txt", "r");
-    if (!arquivo) {
+    if (!arquivo)
+    {
         printf("Erro ao abrir o arquivo de entrada.\n");
         return;
     }
@@ -206,10 +230,12 @@ void lerDados(filaPacientes *filaPacientes, Medico *medicos, int *numMedicos, Sa
 
     // Lendo pacientes
     fgets(linha, sizeof(linha), arquivo);
-    while (fgets(linha, sizeof(linha), arquivo)) {
+    while (fgets(linha, sizeof(linha), arquivo))
+    {
         if (strncmp(linha, "Salas:", 6) == 0)
             break; // Próxima seção
-        if (filaPacientes->tamanho >= MAX_PACIENTES) {
+        if (filaPacientes->tamanho >= MAX_PACIENTES)
+        {
             printf("Número máximo de pacientes excedido.\n");
             break;
         }
@@ -281,31 +307,38 @@ void lerDados(filaPacientes *filaPacientes, Medico *medicos, int *numMedicos, Sa
 }
 
 // Função para alocar consultas
-void alocarConsultas(filaPacientes *filaPacientes, Medico *medicos, int numMedicos, Sala *salas, int numSalas, Consulta *consultas, int *numConsultas) {
+void alocarConsultas(filaPacientes *filaPacientes, Medico *medicos, int numMedicos, Sala *salas, int numSalas, Consulta *consultas, int *numConsultas)
+{
     int horariosMedicos[MAX_MEDICOS][17][7] = {0};
     int horariosSalas[MAX_SALAS][17][7] = {0};
 
-    while (!filaVazia(filaPacientes)) { // Processar enquanto houver pacientes na fila
+    while (!filaVazia(filaPacientes))
+    { // Processar enquanto houver pacientes na fila
         Paciente pacienteAtual = removerDaFila(filaPacientes);
 
         int consultaAlocada = 0;
 
-        for (int d = 0; d < 7 && !consultaAlocada; d++) {
-            for (int h = 8; h < 17 && !consultaAlocada; h++) {
-                for (int m = 0; m < numMedicos && !consultaAlocada; m++) {
-                    if (pacienteAtual.especialidadeId != medicos[m].especialidadeId) {
-                        continue;
-                    }
-                    for (int s = 0; s < numSalas && !consultaAlocada; s++) {
-                        if (horariosMedicos[m][h][d] == 0 && horariosSalas[s][h][d] == 0) {
+        for (int d = 0; d < 7 && !consultaAlocada; d++)
+        {
+            for (int h = 8; h < 17 && !consultaAlocada; h++)
+            {
+                for (int s = 0; s < numSalas && !consultaAlocada; s++)
+                {
+                    for (int m = 0; m < numMedicos && !consultaAlocada; m++)
+                    {
+                        if (pacienteAtual.especialidadeId != medicos[m].especialidadeId)
+                        {
+                            continue;
+                        }
+                        if (horariosMedicos[m][h][d] == 0 && horariosSalas[s][h][d] == 0)
+                        {
                             // Aloca a consulta
                             Consulta novaConsulta = {
                                 .pacienteId = pacienteAtual.id,
                                 .medicoId = medicos[m].id,
                                 .salaId = salas[s].id,
                                 .horario = h,
-                                .retorno = 30
-                            };
+                                .retorno = 30};
 
                             int numero_aleatorio = rand() % 100;
                             novaConsulta.compareceu = (numero_aleatorio < 5) ? 0 : 1;
@@ -329,13 +362,13 @@ void alocarConsultas(filaPacientes *filaPacientes, Medico *medicos, int numMedic
             }
         }
 
-        if (!consultaAlocada) {
+        if (!consultaAlocada)
+        {
             printf("Paciente %s (ID %d) não conseguiu consulta, voltando para a fila.\n", pacienteAtual.nome, pacienteAtual.id);
             inserirNaFila(filaPacientes, pacienteAtual); // Reinsere na fila
         }
     }
 }
-
 
 // Função auxiliar para determinar o dia da semana
 const char *obterDiaDaSemana(int horario)
@@ -383,7 +416,8 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
 
             int dias = consultas[consultaId].horario % 24;
 
-            if(consultas[consultaId].horario == 0 && consultas[consultaId].salaId == 0 || consultas[consultaId].retorno == 0) {
+            if (consultas[consultaId].horario == 0 && consultas[consultaId].salaId == 0 || consultas[consultaId].retorno == 0)
+            {
                 break;
             }
 
@@ -496,7 +530,8 @@ void gerenciarRetornos(Consulta *consultas, int *numConsultas, int maxConsultas)
 }
 
 // Função principal
-int main() {
+int main()
+{
     filaPacientes filaPacientes;
     Medico medicos[MAX_MEDICOS];
     Sala salas[MAX_SALAS];
