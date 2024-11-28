@@ -351,6 +351,21 @@ void alocarConsultas(filaPacientes *filaPacientes, Medico *medicos, int numMedic
                                 pacienteAtual.faltou = 1;
                             }
 
+                            if (!novaConsulta.compareceu) {
+                                // Paciente faltou: diminuir prioridade e reinserir na fila
+                                if (pacienteAtual.faltou < 2) { // Permitir apenas 1 falta
+                                    pacienteAtual.faltou++;
+                                    pacienteAtual.prioridade++; // Diminui a prioridade
+                                    printf("Paciente %s (ID %d) faltou. Repriorizado para %d e reinserido na fila.\n",
+                                           pacienteAtual.nome, pacienteAtual.id, pacienteAtual.prioridade);
+                                    inserirNaFila(filaPacientes, pacienteAtual);
+                                    ordenarFilaPorPrioridade(filaPacientes);
+                                } else {
+                                    printf("Paciente %s (ID %d) faltou novamente e não será reagendado.\n",
+                                           pacienteAtual.nome, pacienteAtual.id);
+                                }
+                            }
+
                             time_t t = time(NULL);
                             struct tm dataAtual = *localtime(&t);
                             dataAtual.tm_mday += d - 7;
@@ -371,7 +386,7 @@ void alocarConsultas(filaPacientes *filaPacientes, Medico *medicos, int numMedic
             }
         }
 
-        if (!consultaAlocada && !pacienteAtual.faltou)
+        if (!consultaAlocada)
         {
             printf("Paciente %s (ID %d) não conseguiu consulta, voltando para a fila.\n", pacienteAtual.nome, pacienteAtual.id);
             inserirNaFila(filaPacientes, pacienteAtual); // Reinsere na fila
