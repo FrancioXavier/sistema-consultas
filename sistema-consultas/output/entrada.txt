@@ -32,9 +32,11 @@ Pacientes:
 Salas:
 0 Sala_A
 1 Sala_B
+2 Sala_C
 Especialidades:
 0 Cardiologia
 1 Clínica_Geral
 Médicos:
 0 Dr_Silva 0
 1 Dra_Ana 1
+2 Dr_Samuel 1
