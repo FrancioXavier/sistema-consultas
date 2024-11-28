@@ -22,6 +22,7 @@ typedef struct
     char sintomas[100];
     int prioridade;
     int especialidadeId;
+    int faltou;
 } Paciente;
 
 typedef struct
@@ -245,6 +246,7 @@ void lerDados(filaPacientes *filaPacientes, Medico *medicos, int *numMedicos, Sa
                &paciente.id, paciente.nome, &paciente.idade, &paciente.altura,
                &paciente.peso, paciente.sintomas, &paciente.especialidadeId);
         paciente.prioridade = rand() % 10;
+        paciente.faltou = 0;
         inserirNaFila(filaPacientes, paciente);
         numPacientes++;
     }
@@ -345,6 +347,9 @@ void alocarConsultas(filaPacientes *filaPacientes, Medico *medicos, int numMedic
 
                             int numero_aleatorio = rand() % 100;
                             novaConsulta.compareceu = (numero_aleatorio < 5) ? 0 : 1;
+                            if(!novaConsulta.compareceu){
+                                pacienteAtual.faltou = 1;
+                            }
 
                             time_t t = time(NULL);
                             struct tm dataAtual = *localtime(&t);
@@ -366,7 +371,7 @@ void alocarConsultas(filaPacientes *filaPacientes, Medico *medicos, int numMedic
             }
         }
 
-        if (!consultaAlocada)
+        if (!consultaAlocada && !pacienteAtual.faltou)
         {
             printf("Paciente %s (ID %d) não conseguiu consulta, voltando para a fila.\n", pacienteAtual.nome, pacienteAtual.id);
             inserirNaFila(filaPacientes, pacienteAtual); // Reinsere na fila
@@ -407,11 +412,10 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
 
             struct tm *data = &consultas[i].dataConsulta;
 
-            fprintf(arquivo, "Consulta %d: Paciente %s (ID %d), Médico %s (ID %d), Sala ID %d, Data: %02d/%02d/%04d, Hora: %02d:00",
+            fprintf(arquivo, "Consulta %d: Paciente ID %d, Médico %s (ID %d), Sala ID %d, Data: %02d/%02d/%04d, Hora: %02d:00",
                     i + 1,
-                    pacientes[consultas[i].pacienteId].nome,
                     consultas[i].pacienteId,
-                    medicos[consultas[i].pacienteId].nome,
+                    medicos[consultas[i].medicoId].nome,
                     consultas[i].medicoId,
                     consultas[i].salaId,
                     data->tm_mday,
@@ -437,15 +441,21 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
     for (int i = 0; i < numConsultas; i++) {
         if (consultas[i].retorno > 0 && consultas[i].isRetorno) {
             struct tm *dataRetorno = &consultas[i].dataRetorno;
-            fprintf(arquivo, "Retorno para Paciente %s (ID %d) com Médico %s (ID %d) em %02d/%02d/%04d.\n",
-                    pacientes[consultas[i].pacienteId].nome,
+            fprintf(arquivo, "Retorno para Paciente ID %d com Médico %s (ID %d) em %02d/%02d/%04d.",
                     consultas[i].pacienteId,
                     medicos[consultas[i].medicoId].nome,
                     consultas[i].medicoId,
                     dataRetorno->tm_mday,
                     dataRetorno->tm_mon + 1,
                     dataRetorno->tm_year + 1900);
+            
+            if (consultas[i].compareceu) {
+                fprintf(arquivo, " (Paciente compareceu)\n");
+            } else {
+                fprintf(arquivo, " (Paciente não compareceu)\n");
+            }
         }
+        
     }
 
     fprintf(arquivo, "\nResumo de Horas Trabalhadas por Médico:\n");
@@ -480,15 +490,17 @@ void gerenciarRetornos(Consulta *consultas, int *numConsultas, int maxConsultas,
             novaConsulta.dataRetorno = novaConsulta.dataConsulta;
 
             novaConsulta.isRetorno = 1; // Não há retorno para retornos
-            novaConsulta.compareceu = 1; // Presumir que o paciente comparecerá inicialmente
             novaConsulta.diaDaSemana = novaConsulta.dataRetorno.tm_wday; // Atualizar o dia da semana
             medicos[consultas[i].medicoId].horasTrabalhadas++;
+
+            int numero_aleatorio = rand() % 100;
+            novaConsulta.compareceu = (numero_aleatorio < 5) ? 0 : 1;
 
             // Adicionar ao vetor de consultas
             consultas[*numConsultas] = novaConsulta;
             (*numConsultas)++;
 
-            printf("Retorno agendado para Paciente ID %d na data %02d/%02d/%04d.\n",
+                printf("Retorno agendado para Paciente ID %d na data %02d/%02d/%04d.\n",
                    novaConsulta.pacienteId,
                    novaConsulta.dataRetorno.tm_mday,
                    novaConsulta.dataRetorno.tm_mon + 1,
