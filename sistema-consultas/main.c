@@ -323,10 +323,22 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
 
     const char *diasDaSemana[] = {"Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"};
 
+
+    char bufferData[20];
+
     for (int d = 0; d < 7; d++)
     { // Itera pelos dias úteis
-        fprintf(arquivo, "\n%s:\n", diasDaSemana[d]);
         int consultasNoDia = 0;
+
+        // Obter a data atual
+        time_t t = time(NULL);
+        struct tm dataRelatorio = *localtime(&t);
+        dataRelatorio.tm_mday += d-7;
+        mktime(&dataRelatorio);
+        // Formatar datas da consulta e do retorno
+        strftime(bufferData, sizeof(bufferData), "%d/%m/%Y", &dataRelatorio);
+
+        fprintf(arquivo, "\n==================== %s ====================\n\n", bufferData);
         for (int i = 0; i < maxConsultasDia; i++)
         {
             int consultaId = i + (d * maxConsultasDia);
@@ -347,23 +359,21 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
 
             if (consultas[consultaId].compareceu)
             {
-                fprintf(arquivo, "Consulta %d: Paciente %s, Médico %s, Sala %s, %s as %d:00 \n\n",
+                fprintf(arquivo, "Consulta %d: Paciente %s, Médico %s, Sala %s, as %d:00 \n\n",
                         i + 1,
                         pacientes[consultas[consultaId].pacienteId].nome,
                         medicos[consultas[consultaId].medicoId].nome,
                         salas[consultas[consultaId].salaId].nome,
-                        bufferConsulta,
                         dias);
             }
             else
             {
-                fprintf(arquivo, "Consulta %d: Paciente %s (ID %d), Médico %s, Sala %s, %s as %d:00 ( O paciente não compareceu )\n\n",
+                fprintf(arquivo, "Consulta %d: Paciente %s (ID %d), Médico %s, Sala %s, as %d:00 ( O paciente não compareceu )\n\n",
                         i + 1,
                         pacientes[consultas[consultaId].pacienteId].nome,
                         pacientes[consultas[consultaId].pacienteId].id,
                         medicos[consultas[consultaId].medicoId].nome,
                         salas[consultas[consultaId].salaId].nome,
-                        bufferConsulta,
                         dias);
             }
             consultasNoDia++;
@@ -376,22 +386,48 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
     }
 
     fprintf(arquivo, "\n\n=== Consultas de retorno ===\n\n");
-    for (int i = 0; i < numConsultas; i++)
-    {
-        // Formatar datas da consulta e do retorno
-        strftime(bufferRetorno, sizeof(bufferRetorno), "%d/%m/%Y", &consultas[i].dataConsulta);
+    for (int d = 0; d < 7; d++)
+    { // Itera pelos dias úteis
+        int consultasNoDia = 0;
 
-        int horario = consultas[i].horario % 24;
-        int dias = consultas[i].horario / 24;
-        if (consultas[i].retorno == 0)
+        // Obter a data atual
+        time_t t = time(NULL);
+        struct tm dataRelatorio = *localtime(&t);
+        dataRelatorio.tm_mday += (d-7)+30;
+        mktime(&dataRelatorio);
+
+        // Formatar datas da consulta e do retorno
+        strftime(bufferData, sizeof(bufferData), "%d/%m/%Y", &dataRelatorio);
+
+        fprintf(arquivo, "\n==================== %s ====================\n\n", bufferData);
+
+        for (int i = 0; i < numConsultas; i++)
         {
-            fprintf(arquivo, "Consulta %d: Paciente: %s, Médico: %s, Sala: %s, dia e hora: %d:00, %s \n\n",
-                    i + 1,
-                    pacientes[consultas[i].pacienteId].nome,
-                    medicos[consultas[i].medicoId].nome,
-                    salas[consultas[i].salaId].nome,
-                    horario,
-                    bufferRetorno);
+            int consultaId = i + (d * maxConsultasDia);
+            if (consultas[consultaId].diaDaSemana != d)
+            {
+                continue;
+            }
+            // Formatar datas da consulta e do retorno
+            strftime(bufferRetorno, sizeof(bufferRetorno), "%d/%m/%Y", &consultas[consultaId].dataConsulta);
+
+            const char *diaConsulta = obterDiaDaSemana(consultas[consultaId].horario);
+            
+            if(consultas[consultaId].horario == 0 && consultas[consultaId].salaId == 0) {
+                break;
+            }
+
+            int horario = consultas[consultaId].horario % 24;
+            int dias = consultas[consultaId].horario / 24;
+            if (consultas[consultaId].retorno == 0)
+            {
+                fprintf(arquivo, "Consulta %d: Paciente: %s, Médico: %s, Sala: %s, as %d:00 \n\n",
+                        i + 1,
+                        pacientes[consultas[consultaId].pacienteId].nome,
+                        medicos[consultas[consultaId].medicoId].nome,
+                        salas[consultas[consultaId].salaId].nome,
+                        horario);
+            }
         }
     }
 
@@ -425,7 +461,8 @@ void gerenciarRetornos(Consulta *consultas, int *numConsultas, int maxConsultas)
                     .medicoId = consultas[i].medicoId,
                     .salaId = consultas[i].salaId,
                     .horario = consultas[i].horario + (consultas[i].retorno * 24), // 30 dias em horas
-                    .retorno = 0                                                   // Retorno do retorno não será definido
+                    .retorno = 0,       // Retorno do retorno não será definido
+                    .diaDaSemana = consultas[i].diaDaSemana
                 };
 
                 // Obter a data atual
