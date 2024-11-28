@@ -99,59 +99,6 @@ Paciente removerDaFila(filaPacientes *fila)
     return paciente;
 }
 
-void imprimirFilaPacientes(filaPacientes *fila)
-{
-    if (filaVazia(fila))
-    {
-        printf("A fila de pacientes está vazia.\n");
-        return;
-    }
-
-    printf("=== Fila de Pacientes ===\n");
-    int i = fila->ini;
-    for (int j = 0; j < fila->tamanho; j++)
-    {
-        Paciente paciente = fila->elementos[i];
-        printf("Paciente ID: %d, Nome: %s, Idade: %d, Prioridade: %d, Especialidade ID: %d\n",
-               paciente.id, paciente.nome, paciente.idade, paciente.prioridade, paciente.especialidadeId);
-        i = (i + 1) % fila->tamanho;
-    }
-    printf("\n");
-}
-
-void imprimirMedicos(Medico *medicos, int numMedicos)
-{
-    if (numMedicos == 0)
-    {
-        printf("Nenhum médico cadastrado.\n");
-        return;
-    }
-
-    printf("=== Médicos ===\n");
-    for (int i = 0; i < numMedicos; i++)
-    {
-        printf("Médico ID: %d, Nome: %s, Especialidade ID: %d, Horas Trabalhadas: %d\n",
-               medicos[i].id, medicos[i].nome, medicos[i].especialidadeId, medicos[i].horasTrabalhadas);
-    }
-    printf("\n");
-}
-
-void imprimirSalas(Sala *salas, int numSalas)
-{
-    if (numSalas == 0)
-    {
-        printf("Nenhuma sala cadastrada.\n");
-        return;
-    }
-
-    printf("=== Salas ===\n");
-    for (int i = 0; i < numSalas; i++)
-    {
-        printf("Sala ID: %d, Nome: %s\n", salas[i].id, salas[i].nome);
-    }
-    printf("\n");
-}
-
 void heapifyFila(filaPacientes *fila, int n, int i)
 {
     int maior = i;
@@ -347,15 +294,12 @@ void alocarConsultas(filaPacientes *filaPacientes, Medico *medicos, int numMedic
 
                             int numero_aleatorio = rand() % 100;
                             novaConsulta.compareceu = (numero_aleatorio < 5) ? 0 : 1;
-                            if(!novaConsulta.compareceu){
-                                pacienteAtual.faltou = 1;
-                            }
 
                             if (!novaConsulta.compareceu) {
                                 // Paciente faltou: diminuir prioridade e reinserir na fila
                                 if (pacienteAtual.faltou < 2) { // Permitir apenas 1 falta
                                     pacienteAtual.faltou++;
-                                    pacienteAtual.prioridade++; // Diminui a prioridade
+                                    pacienteAtual.prioridade++; // "Diminui" a prioridade
                                     printf("Paciente %s (ID %d) faltou. Repriorizado para %d e reinserido na fila.\n",
                                            pacienteAtual.nome, pacienteAtual.id, pacienteAtual.prioridade);
                                     inserirNaFila(filaPacientes, pacienteAtual);
@@ -403,6 +347,20 @@ const char *obterDiaDaSemana(int horario)
     return diasDaSemana[diaIndex % 7]; // Cicla entre os dias úteis
 }
 
+//Ordena médicos através de um bubbleSort
+void ordenarMedicosPorHoras(Medico *medicos, int numMedicos) {
+    for (int i = 0; i < numMedicos - 1; i++) {
+        for (int j = 0; j < numMedicos - i - 1; j++) {
+            if (medicos[j].horasTrabalhadas < medicos[j + 1].horasTrabalhadas) {
+                // Trocar os médicos
+                Medico temp = medicos[j];
+                medicos[j] = medicos[j + 1];
+                medicos[j + 1] = temp;
+            }
+        }
+    }
+}
+
 // Função ajustada para gerar relatório
 void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int numMedicos, Paciente *pacientes, int numPacientes, Sala *salas) {
     FILE *arquivo = fopen("relatorio.txt", "w");
@@ -442,9 +400,6 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
                     medicos[consultas[i].medicoId].nome,
                     consultas[i].medicoId,
                     consultas[i].salaId,
-                    data->tm_mday,
-                    data->tm_mon + 1,
-                    data->tm_year + 1900,
                     consultas[i].horario);
 
             if (consultas[i].compareceu) {
@@ -482,6 +437,10 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
         
     }
 
+    //Ordena médicos por horas trabalhadas
+    ordenarMedicosPorHoras(medicos, numMedicos);
+
+    // imprime médicos ordenados por hora trabalhada
     fprintf(arquivo, "\nResumo de Horas Trabalhadas por Médico:\n");
     for (int i = 0; i < numMedicos; i++) {
         fprintf(arquivo, "- Médico %s (ID %d): %d horas\n",
