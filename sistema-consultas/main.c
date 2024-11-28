@@ -21,7 +21,16 @@ typedef struct
     float peso;
     char sintomas[100];
     int prioridade;
+    int especialidadeId;
 } Paciente;
+
+typedef struct
+{
+    int ini;
+    int fim;
+    int tamanho;
+    Paciente elementos[MAX_PACIENTES];
+} filaPacientes;
 
 typedef struct
 {
@@ -47,95 +56,173 @@ typedef struct
     struct tm dataConsulta; // Data da consulta
     struct tm dataRetorno;  // Data do retorno
     int compareceu;
+    int diaDaSemana;
 } Consulta;
 
-void trocar(Paciente *a, Paciente *b) {
-    Paciente temp = *a;
-    *a = *b;
-    *b = temp;
+void inicializarFila(filaPacientes *fila) {
+    fila->ini = 0;
+    fila->fim = -1;
+    fila->tamanho = 0;
 }
 
-void heapify(Paciente *pacientes, int n, int i) {
-    int maior = i;            // Raiz inicial
-    int esquerda = 2 * i + 1; // Filho à esquerda
-    int direita = 2 * i + 2;  // Filho à direita
+int filaVazia(filaPacientes *fila) {
+    return fila->tamanho == 0;
+}
 
-    // Verifica se o filho à esquerda é maior que a raiz
-    if (esquerda < n && pacientes[esquerda].prioridade > pacientes[maior].prioridade) {
+void inserirNaFila(filaPacientes *fila, Paciente paciente){
+    if (fila->tamanho >= MAX_PACIENTES) {
+        printf("Erro: a fila está cheia.\n");
+        return;
+    }
+    fila->fim = (fila->fim + 1) % MAX_PACIENTES;
+    fila->elementos[fila->fim] = paciente;
+    fila->tamanho++;
+}
+
+Paciente removerDaFila(filaPacientes *fila) {
+    if (filaVazia(fila)) {
+        printf("Erro: a fila está vazia.\n");
+        Paciente pacienteVazio = {0}; // Retorna um paciente "vazio" em caso de erro
+        return pacienteVazio;
+    }
+    Paciente paciente = fila->elementos[fila->ini];
+    fila->ini = (fila->ini + 1) % MAX_PACIENTES;
+    fila->tamanho--;
+    return paciente;
+}
+
+void imprimirFilaPacientes(filaPacientes *fila) {
+    if (filaVazia(fila)) {
+        printf("A fila de pacientes está vazia.\n");
+        return;
+    }
+
+    printf("=== Fila de Pacientes ===\n");
+    int i = fila->ini;
+    for (int j = 0; j < fila->tamanho; j++) {
+        Paciente paciente = fila->elementos[i];
+        printf("Paciente ID: %d, Nome: %s, Idade: %d, Prioridade: %d, Especialidade ID: %d\n",
+               paciente.id, paciente.nome, paciente.idade, paciente.prioridade, paciente.especialidadeId);
+        i = (i + 1) % fila->tamanho;
+    }
+    printf("\n");
+}
+
+void imprimirMedicos(Medico *medicos, int numMedicos) {
+    if (numMedicos == 0) {
+        printf("Nenhum médico cadastrado.\n");
+        return;
+    }
+
+    printf("=== Médicos ===\n");
+    for (int i = 0; i < numMedicos; i++) {
+        printf("Médico ID: %d, Nome: %s, Especialidade ID: %d, Horas Trabalhadas: %d\n",
+               medicos[i].id, medicos[i].nome, medicos[i].especialidadeId, medicos[i].horasTrabalhadas);
+    }
+    printf("\n");
+}
+
+void imprimirSalas(Sala *salas, int numSalas) {
+    if (numSalas == 0) {
+        printf("Nenhuma sala cadastrada.\n");
+        return;
+    }
+
+    printf("=== Salas ===\n");
+    for (int i = 0; i < numSalas; i++) {
+        printf("Sala ID: %d, Nome: %s\n", salas[i].id, salas[i].nome);
+    }
+    printf("\n");
+}
+
+void heapifyFila(filaPacientes *fila, int n, int i) {
+    int maior = i;
+    int esquerda = 2 * i + 1;
+    int direita = 2 * i + 2;
+
+    // Ajuste para trabalhar com fila circular
+    int indiceAtual = (fila->ini+ i) % fila->tamanho;
+    int indiceEsquerda = (fila->ini+ esquerda) % fila->tamanho;
+    int indiceDireita = (fila->ini+ direita) % fila->tamanho;
+
+    // Verifica se o filho à esquerda tem maior prioridade
+    if (esquerda < n && fila->elementos[indiceEsquerda].prioridade > fila->elementos[indiceAtual].prioridade) {
         maior = esquerda;
     }
 
-    // Verifica se o filho à direita é maior que o maior atual
-    if (direita < n && pacientes[direita].prioridade > pacientes[maior].prioridade) {
+    // Verifica se o filho à direita tem maior prioridade
+    if (direita < n && fila->elementos[indiceDireita].prioridade > fila->elementos[(fila->ini+ maior) % fila->tamanho].prioridade) {
         maior = direita;
     }
 
-    // Se o maior não for a raiz, troca e aplica heapify
+    // Se o maior não for a raiz, troque e reaplique o heapify
     if (maior != i) {
-        trocar(&pacientes[i], &pacientes[maior]);
-        heapify(pacientes, n, maior);
+        int indiceMaior = (fila->ini+ maior) % fila->tamanho;
+        Paciente temp = fila->elementos[indiceAtual];
+        fila->elementos[indiceAtual] = fila->elementos[indiceMaior];
+        fila->elementos[indiceMaior] = temp;
+
+        heapifyFila(fila, n, maior);
     }
 }
 
-void construirHeap(Paciente *pacientes, int n) {
-    // Constrói a heap (max-heap) de baixo para cima
+void construirHeapFila(filaPacientes *fila) {
+    int n = fila->tamanho;
     for (int i = n / 2 - 1; i >= 0; i--) {
-        heapify(pacientes, n, i);
+        heapifyFila(fila, n, i);
     }
 }
 
-void ordenarPorPrioridade(Paciente *pacientes, int n) {
-    // Constrói a max-heap
-    construirHeap(pacientes, n);
+void ordenarFilaPorPrioridade(filaPacientes *fila) {
+    construirHeapFila(fila);
 
-    // Extrai os elementos da heap
-    for (int i = n - 1; i >= 0; i--) {
-        // Move a raiz (maior elemento) para o final
-        trocar(&pacientes[0], &pacientes[i]);
+    // Extraindo os elementos da heap
+    for (int i = fila->tamanho - 1; i > 0; i--) {
+        int indiceInicio = fila->ini % fila->tamanho;
+        int indiceAtual = (fila->ini + i) % fila->tamanho;
 
-        // Reaplica heapify na sub-heap reduzida
-        heapify(pacientes, i, 0);
-    }
+        // Troca o maior elemento (raiz) com o último elemento
+        Paciente temp = fila->elementos[indiceInicio];
+        fila->elementos[indiceInicio] = fila->elementos[indiceAtual];
+        fila->elementos[indiceAtual] = temp;
 
-    // Inverter o vetor para ter o maior no início
-    for (int i = 0; i < n / 2; i++) {
-        trocar(&pacientes[i], &pacientes[n - i - 1]);
+        // Reduz o tamanho da heap e reaplica o heapify
+        heapifyFila(fila, i, 0);
     }
 }
 
 // Função para ler dados
-void lerDados(Paciente *pacientes, int *numPacientes, Medico *medicos, int *numMedicos, Sala *salas, int *numSalas)
+void lerDados(filaPacientes *filaPacientes, Medico *medicos, int *numMedicos, Sala *salas, int *numSalas)
 {
+    int numPacientes = 0;
     FILE *arquivo = fopen("entrada.txt", "r");
-    if (!arquivo)
-    {
+    if (!arquivo) {
         printf("Erro ao abrir o arquivo de entrada.\n");
         return;
     }
 
     char linha[256];
+    inicializarFila(filaPacientes); // Inicializa a fila de pacientes
 
     // Lendo pacientes
     fgets(linha, sizeof(linha), arquivo);
-    while (fgets(linha, sizeof(linha), arquivo))
-    {
+    while (fgets(linha, sizeof(linha), arquivo)) {
         if (strncmp(linha, "Salas:", 6) == 0)
             break; // Próxima seção
-        if (*numPacientes >= MAX_PACIENTES)
-        {
+        if (filaPacientes->tamanho >= MAX_PACIENTES) {
             printf("Número máximo de pacientes excedido.\n");
             break;
         }
+        Paciente paciente;
         sscanf(linha, "%d %s %d %f %f %s %d",
-               &pacientes[*numPacientes].id,
-               pacientes[*numPacientes].nome,
-               &pacientes[*numPacientes].idade,
-               &pacientes[*numPacientes].altura,
-               &pacientes[*numPacientes].peso,
-               pacientes[*numPacientes].sintomas,
-               &pacientes[*numPacientes].prioridade);
-        (*numPacientes)++;
+               &paciente.id, paciente.nome, &paciente.idade, &paciente.altura,
+               &paciente.peso, paciente.sintomas, &paciente.especialidadeId);
+        paciente.prioridade = rand() % 10;
+        inserirNaFila(filaPacientes, paciente);
+        numPacientes++;
     }
+
+    ordenarFilaPorPrioridade(filaPacientes);
 
     // Lendo salas
     while (fgets(linha, sizeof(linha), arquivo))
@@ -187,80 +274,68 @@ void lerDados(Paciente *pacientes, int *numPacientes, Medico *medicos, int *numM
 
     fclose(arquivo);
     printf("Dados lidos do arquivo com sucesso!\n");
-    printf("Pacientes lidos: %d\n", *numPacientes);
+    printf("Pacientes lidos: %d\n", numPacientes);
     printf("Salas lidas: %d\n", *numSalas);
     printf("Especialidades lidas: %d\n", numEspecialidades);
     printf("Médicos lidos: %d\n", *numMedicos);
 }
 
 // Função para alocar consultas
-void alocarConsultas(Paciente *pacientes, int numPacientes, Medico *medicos, int numMedicos,
-                     Sala *salas, int numSalas, Consulta *consultas, int *numConsultas)
-{
-    // Matrizes para rastrear disponibilidade de médicos e salas.
-    int horariosMedicos[MAX_MEDICOS][17] = {0}; // Horários ocupados pelos médicos (8h às 16h).
-    int horariosSalas[MAX_SALAS][17] = {0};     // Horários ocupados pelas salas (8h às 16h).
+void alocarConsultas(filaPacientes *filaPacientes, Medico *medicos, int numMedicos, Sala *salas, int numSalas, Consulta *consultas, int *numConsultas) {
+    int horariosMedicos[MAX_MEDICOS][17][7] = {0};
+    int horariosSalas[MAX_SALAS][17][7] = {0};
 
-    // Inicializa as horas trabalhadas dos médicos
-    for (int m = 0; m < numMedicos; m++)
-    {
-        medicos[m].horasTrabalhadas = 0;
-    }
+    while (!filaVazia(filaPacientes)) { // Processar enquanto houver pacientes na fila
+        Paciente pacienteAtual = removerDaFila(filaPacientes);
 
-    for (int i = 0; i < numPacientes; i++)
-    {
-        if (*numConsultas >= MAX_CONSULTAS)
-            break;
+        int consultaAlocada = 0;
 
-        int consultaAlocada = 0; // Flag para saber se a consulta foi alocada.
+        for (int d = 0; d < 7 && !consultaAlocada; d++) {
+            for (int h = 8; h < 17 && !consultaAlocada; h++) {
+                for (int m = 0; m < numMedicos && !consultaAlocada; m++) {
+                    if (pacienteAtual.especialidadeId != medicos[m].especialidadeId) {
+                        continue;
+                    }
+                    for (int s = 0; s < numSalas && !consultaAlocada; s++) {
+                        if (horariosMedicos[m][h][d] == 0 && horariosSalas[s][h][d] == 0) {
+                            // Aloca a consulta
+                            Consulta novaConsulta = {
+                                .pacienteId = pacienteAtual.id,
+                                .medicoId = medicos[m].id,
+                                .salaId = salas[s].id,
+                                .horario = h,
+                                .retorno = 30
+                            };
 
-        // Tenta alocar consulta para o paciente
-        for (int h = 8; h < 17 && !consultaAlocada; h++)
-        { // Horários de 8h às 16h.
-            for (int m = 0; m < numMedicos && !consultaAlocada; m++)
-            {
-                for (int s = 0; s < numSalas && !consultaAlocada; s++)
-                {
-                    // Verifica se médico e sala estão disponíveis no horário.
-                    if (horariosMedicos[m][h] == 0 && horariosSalas[s][h] == 0)
-                    {
-                        // Cria uma nova consulta.
-                        Consulta novaConsulta = {
-                            .pacienteId = pacientes[i].id,
-                            .medicoId = medicos[m].id,
-                            .salaId = salas[s].id,
-                            .horario = h,
-                            .retorno = 30 // Retorno inicial 30 dias após a consulta
-                        };
+                            int numero_aleatorio = rand() % 100;
+                            novaConsulta.compareceu = (numero_aleatorio < 5) ? 0 : 1;
 
-                        // Atualiza as matrizes de disponibilidade.
-                        horariosMedicos[m][h] = 1;
-                        horariosSalas[s][h] = 1;
+                            time_t t = time(NULL);
+                            struct tm dataAtual = *localtime(&t);
+                            dataAtual.tm_mday += d - 7;
+                            mktime(&dataAtual);
+                            novaConsulta.dataConsulta = dataAtual;
 
-                        // Adiciona a consulta à lista.
-                        consultas[(*numConsultas)++] = novaConsulta;
+                            horariosMedicos[m][h][d] = 1;
+                            horariosSalas[s][h][d] = 1;
 
-                        // Incrementa as horas trabalhadas do médico.
-                        medicos[m].horasTrabalhadas++;
+                            consultas[(*numConsultas)++] = novaConsulta;
+                            medicos[m].horasTrabalhadas++;
 
-                        consultaAlocada = 1; // Consulta foi alocada.
+                            consultaAlocada = 1;
+                        }
                     }
                 }
             }
         }
 
-    // Se o paciente comparece a consulta é decidido aleatoriamente
-    for(int z = 0; z < (*numConsultas); z++){
-        consultas[z].compareceu = rand() % 2;
-    }
-
-        // Caso não seja possível alocar a consulta.
-        if (!consultaAlocada)
-        {
-            printf("Erro: Não foi possível alocar consulta para o paciente %d.\n", pacientes[i].id);
+        if (!consultaAlocada) {
+            printf("Paciente %s (ID %d) não conseguiu consulta, voltando para a fila.\n", pacienteAtual.nome, pacienteAtual.id);
+            inserirNaFila(filaPacientes, pacienteAtual); // Reinsere na fila
         }
     }
 }
+
 
 // Função auxiliar para determinar o dia da semana
 const char *obterDiaDaSemana(int horario)
@@ -272,14 +347,18 @@ const char *obterDiaDaSemana(int horario)
 }
 
 // Função ajustada para gerar relatório
-void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int numMedicos, Paciente *pacientes, int numPacientes)
+void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int numMedicos, Paciente *pacientes, int numPacientes, Sala *salas)
 {
+
+    char bufferConsulta[20], bufferRetorno[20];
     FILE *arquivo = fopen("relatorio.txt", "w");
     if (!arquivo)
     {
         printf("Erro ao abrir arquivo para salvar o relatório.\n");
         return;
     }
+
+    int maxConsultasDia = numMedicos * 9;
 
     fprintf(arquivo, "=== Relatório de Consultas ===\n\n");
     fprintf(arquivo, "Consultas Realizadas por Dia da Semana:\n");
@@ -290,82 +369,46 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
     { // Itera pelos dias úteis
         fprintf(arquivo, "\n%s:\n", diasDaSemana[d]);
         int consultasNoDia = 0;
-
-        char bufferConsulta[20], bufferRetorno[20];
-        for (int i = (d); i < numConsultas; i++)
+        for (int i = 0; i < maxConsultasDia; i++)
         {
-            // Obter a data atual
-            time_t t = time(NULL);
-            struct tm dataAtual = *localtime(&t);
+            int consultaId = i + (d * maxConsultasDia);
 
-            // Definir a data da consulta como a data atual
-            consultas[i].dataConsulta = dataAtual;
-
-            // Calcular a data de retorno (30 dias após a data da consulta)
-            struct tm dataRetorno = dataAtual;
-            dataRetorno.tm_mday += 30;
-
-            // Ajustar a data de retorno caso ultrapasse o limite do mês
-            mktime(&dataRetorno); // Ajusta automaticamente o mês/ano se necessário
-
-            consultas[i].dataRetorno = dataRetorno; // Indica que o retorno foi agendado
-            // Formatar datas da consulta e do retorno
-            strftime(bufferConsulta, sizeof(bufferConsulta), "%d/%m/%Y", &consultas[i].dataConsulta);
-            strftime(bufferRetorno, sizeof(bufferRetorno), "%d/%m/%Y", &consultas[i].dataRetorno);
-            // Ignora consultas inválidas
-            if (consultas[i].pacienteId == 0 || consultas[i].medicoId == 0 || consultas[i].salaId == 0 || consultas[i].horario == 0)
+            if (consultas[consultaId].diaDaSemana != d)
             {
                 continue;
             }
+            strftime(bufferConsulta, sizeof(bufferConsulta), "%d/%m/%Y", &consultas[consultaId].dataConsulta);
 
-            const char *diaConsulta = obterDiaDaSemana(consultas[i].horario);
-            if (strcmp(diaConsulta, diasDaSemana[d]) == 0)
-            {
-                // Recupera o nome do paciente
-                char nomePaciente[50] = "Desconhecido";
-                for (int p = 0; p < numPacientes; p++)
-                {
-                    if (pacientes[p].id == consultas[i].pacienteId)
-                    {
-                        strcpy(nomePaciente, pacientes[p].nome);
-                        break;
-                    }
-                }
+            const char *diaConsulta = obterDiaDaSemana(consultas[consultaId].horario);
 
-                // Recupera o nome do médico
-                char nomeMedico[50] = "Desconhecido";
-                for (int m = 0; m < numMedicos; m++)
-                {
-                    if (medicos[m].id == consultas[i].medicoId)
-                    {
-                        strcpy(nomeMedico, medicos[m].nome);
-                        break;
-                    }
-                }
+            int dias = consultas[consultaId].horario % 24;
 
-                int dias = consultas[i].horario % 24;
-                if (consultas[i].retorno != 0)
-                {
-                    if(consultas[i].compareceu == 1){
-                    fprintf(arquivo, "Consulta %d: Paciente %d, Médico %d, Sala %d, Horário %d, Retorno em %d dias\n",
-                            i + 1,
-                            consultas[i].pacienteId,
-                            consultas[i].medicoId,
-                            consultas[i].salaId,
-                            dias,
-                            consultas[i].retorno);
-                    }else{
-                        fprintf(arquivo, "Consulta %d: Paciente %d, Médico %d, Sala %d, Horário %d ( O paciente não compareceu )\n",
-                        i + 1,
-                        consultas[i].pacienteId,
-                        consultas[i].medicoId,
-                        consultas[i].salaId,
-                        dias
-                        );
-                    }
-                    consultasNoDia++;
-                }
+            if(consultas[consultaId].horario == 0 && consultas[consultaId].salaId == 0 || consultas[consultaId].retorno == 0) {
+                break;
             }
+
+            if (consultas[consultaId].compareceu)
+            {
+                fprintf(arquivo, "Consulta %d: Paciente %s, Médico %s, Sala %s, %s as %d:00 \n\n",
+                        i + 1,
+                        pacientes[consultas[consultaId].pacienteId].nome,
+                        medicos[consultas[consultaId].medicoId].nome,
+                        salas[consultas[consultaId].salaId].nome,
+                        bufferConsulta,
+                        dias);
+            }
+            else
+            {
+                fprintf(arquivo, "Consulta %d: Paciente %s (ID %d), Médico %s, Sala %s, %s as %d:00 ( O paciente não compareceu )\n\n",
+                        i + 1,
+                        pacientes[consultas[consultaId].pacienteId].nome,
+                        pacientes[consultas[consultaId].pacienteId].id,
+                        medicos[consultas[consultaId].medicoId].nome,
+                        salas[consultas[consultaId].salaId].nome,
+                        bufferConsulta,
+                        dias);
+            }
+            consultasNoDia++;
         }
 
         if (consultasNoDia == 0)
@@ -375,22 +418,20 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
     }
 
     fprintf(arquivo, "\n\n=== Consultas de retorno ===\n\n");
-    char bufferConsulta[20], bufferRetorno[20];
     for (int i = 0; i < numConsultas; i++)
     {
         // Formatar datas da consulta e do retorno
-        strftime(bufferConsulta, sizeof(bufferConsulta), "%d/%m/%Y", &consultas[i].dataConsulta);
-        strftime(bufferRetorno, sizeof(bufferRetorno), "%d/%m/%Y", &consultas[i].dataRetorno);
+        strftime(bufferRetorno, sizeof(bufferRetorno), "%d/%m/%Y", &consultas[i].dataConsulta);
 
         int horario = consultas[i].horario % 24;
         int dias = consultas[i].horario / 24;
         if (consultas[i].retorno == 0)
         {
-            fprintf(arquivo, "Consulta %d: Paciente: %d, Médico: %d, Sala: %d, dia e hora: %d:00, %s \n",
+            fprintf(arquivo, "Consulta %d: Paciente: %s, Médico: %s, Sala: %s, dia e hora: %d:00, %s \n\n",
                     i + 1,
-                    consultas[i].pacienteId,
-                    consultas[i].medicoId,
-                    consultas[i].salaId,
+                    pacientes[consultas[i].pacienteId].nome,
+                    medicos[consultas[i].medicoId].nome,
+                    salas[consultas[i].salaId].nome,
                     horario,
                     bufferRetorno);
         }
@@ -418,13 +459,7 @@ void gerenciarRetornos(Consulta *consultas, int *numConsultas, int maxConsultas)
         // Verificar se a consulta original tem um retorno agendado
         if (consultas[i].retorno != 0 && consultas[i].compareceu)
         {
-            // Calcular data de retorno: adicionar 30 dias à data da consulta
-            consultas[i].dataRetorno = consultas[i].dataConsulta; // Copiar data original
-            consultas[i].dataRetorno.tm_mday += 30;
-
-            // Ajustar para uma data válida
-            mktime(&consultas[i].dataRetorno); // Normaliza a data (ajusta mês e ano automaticamente)
-            // Criar uma nova consulta de retorno
+            // Formatar datas da consulta e do retorno
             if (*numConsultas < maxConsultas)
             {
                 Consulta novaConsulta = {
@@ -434,6 +469,14 @@ void gerenciarRetornos(Consulta *consultas, int *numConsultas, int maxConsultas)
                     .horario = consultas[i].horario + (consultas[i].retorno * 24), // 30 dias em horas
                     .retorno = 0                                                   // Retorno do retorno não será definido
                 };
+
+                // Obter a data atual
+                struct tm dataAtual = consultas[i].dataConsulta;
+
+                // Definir a data da consulta como a data atual
+                dataAtual.tm_mday += 30;
+                mktime(&dataAtual);
+                novaConsulta.dataConsulta = dataAtual;
 
                 // Adicionar a nova consulta à lista
                 consultas[(*numConsultas)++] = novaConsulta;
@@ -453,9 +496,8 @@ void gerenciarRetornos(Consulta *consultas, int *numConsultas, int maxConsultas)
 }
 
 // Função principal
-int main()
-{
-    Paciente pacientes[MAX_PACIENTES];
+int main() {
+    filaPacientes filaPacientes;
     Medico medicos[MAX_MEDICOS];
     Sala salas[MAX_SALAS];
     Consulta consultas[MAX_CONSULTAS];
@@ -463,21 +505,21 @@ int main()
 
     // Gera seeds aleatórias
     srand(time(NULL));
-
     // Ler dados do arquivo
-    lerDados(pacientes, &numPacientes, medicos, &numMedicos, salas, &numSalas);
+    lerDados(&filaPacientes, medicos, &numMedicos, salas, &numSalas);
 
-    // Ordenar pacientes por prioridade antes de alocar as consultas
-    ordenarPorPrioridade(pacientes, numPacientes);
+    // Ordena os pacientes na fila por prioridade antes de alocar as consultas
+    ordenarFilaPorPrioridade(&filaPacientes);
+
+    imprimirFilaPacientes(&filaPacientes);
+    imprimirMedicos(medicos, numMedicos);
+    imprimirSalas(salas, numSalas);
 
     // Alocar consultas
-    alocarConsultas(pacientes, numPacientes, medicos, numMedicos, salas, numSalas, consultas, &numConsultas);
+    alocarConsultas(&filaPacientes, medicos, numMedicos, salas, numSalas, consultas, &numConsultas);
 
-    // Gerenciar retornos
-    gerenciarRetornos(consultas, &numConsultas, MAX_CONSULTAS);
-
-    // Gerar relatório
-    gerarRelatorio(consultas, numConsultas, medicos, numMedicos, pacientes, numPacientes);
+    // Gerar relatório (implementação dessa função não foi alterada, você pode chamá-la aqui)
+    gerarRelatorio(consultas, numConsultas, medicos, numMedicos, filaPacientes.elementos, numPacientes, salas);
 
     return 0;
 }
