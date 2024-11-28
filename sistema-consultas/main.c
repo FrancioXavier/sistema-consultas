@@ -400,9 +400,18 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
     fprintf(arquivo, "Consultas Realizadas por Dia da Semana:\n");
 
     const char *diasDaSemana[] = {"Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"};
+    char bufferData[20];
 
     for (int d = 0; d < 7; d++) {
-        fprintf(arquivo, "\n%s:\n", diasDaSemana[d]);
+        // Obter a data atual
+        time_t t = time(NULL);
+        struct tm dataRelatorio = *localtime(&t);
+        dataRelatorio.tm_mday += d-7;
+        mktime(&dataRelatorio);
+        // Formatar datas da consulta e do retorno
+        strftime(bufferData, sizeof(bufferData), "%d/%m/%Y", &dataRelatorio);
+
+        fprintf(arquivo, "\n%s:\n", bufferData);
         int consultasNoDia = 0;
 
         for (int i = 0; i < numConsultas; i++) {
@@ -412,7 +421,7 @@ void gerarRelatorio(Consulta *consultas, int numConsultas, Medico *medicos, int 
 
             struct tm *data = &consultas[i].dataConsulta;
 
-            fprintf(arquivo, "Consulta %d: Paciente ID %d, Médico %s (ID %d), Sala ID %d, Data: %02d/%02d/%04d, Hora: %02d:00",
+            fprintf(arquivo, "Consulta %d: Paciente ID %d, Médico %s (ID %d), Sala ID %d, Hora: %02d:00",
                     i + 1,
                     consultas[i].pacienteId,
                     medicos[consultas[i].medicoId].nome,

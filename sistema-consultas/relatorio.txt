@@ -2,66 +2,85 @@
 
 Consultas Realizadas por Dia da Semana:
 
-Domingo:
-Consulta 1: Paciente Maria, Médico Dra_Ana, Sala Sala_A, 20/11/2024 as 8:00 
+21/11/2024:
+Consulta 1: Paciente ID 8, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 21:00 (Paciente compareceu)
+Consulta 2: Paciente ID 5, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 21:00 (Paciente compareceu)
+Consulta 3: Paciente ID 23, Médico Dr_Silva (ID 0), Sala ID 1, Hora: 21:00 (Paciente compareceu)
+Consulta 4: Paciente ID 9, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 21:00 (Paciente compareceu)
+Consulta 5: Paciente ID 19, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 21:00 (Paciente compareceu)
+Consulta 6: Paciente ID 14, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 21:00 (Paciente compareceu)
+Consulta 7: Paciente ID 4, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 21:00 (Paciente compareceu)
+Consulta 8: Paciente ID 6, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 21:00 (Paciente compareceu)
+Consulta 9: Paciente ID 22, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 21:00 (Paciente compareceu)
+Consulta 10: Paciente ID 24, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 21:00 (Paciente compareceu)
+Consulta 12: Paciente ID 3, Médico Dr_Silva (ID 0), Sala ID 1, Hora: 21:00 (Paciente compareceu)
+Consulta 13: Paciente ID 17, Médico Dr_Silva (ID 0), Sala ID 1, Hora: 21:00 (Paciente compareceu)
+Consulta 16: Paciente ID 7, Médico Dr_Silva (ID 0), Sala ID 1, Hora: 21:00 (Paciente compareceu)
+Consulta 21: Paciente ID 13, Médico Dr_Silva (ID 0), Sala ID 1, Hora: 21:00 (Paciente compareceu)
+Consulta 22: Paciente ID 27, Médico Dr_Silva (ID 0), Sala ID 1, Hora: 21:00 (Paciente compareceu)
 
-Consulta 2: Paciente Maria, Médico Dra_Ana, Sala Sala_A, 20/11/2024 as 9:00 
+22/11/2024:
+Consulta 11: Paciente ID 2, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 22:00 (Paciente compareceu)
+Consulta 14: Paciente ID 29, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 22:00 (Paciente compareceu)
+Consulta 15: Paciente ID 15, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 22:00 (Paciente compareceu)
+Consulta 17: Paciente ID 20, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 22:00 (Paciente compareceu)
+Consulta 18: Paciente ID 21, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 22:00 (Paciente compareceu)
+Consulta 19: Paciente ID 11, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 22:00 (Paciente compareceu)
+Consulta 20: Paciente ID 12, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 22:00 (Paciente compareceu)
+Consulta 23: Paciente ID 16, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 22:00 (Paciente compareceu)
+Consulta 24: Paciente ID 0, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 22:00 (Paciente compareceu)
 
-Consulta 3: Paciente Maria, Médico Dra_Ana, Sala Sala_A, 20/11/2024 as 10:00 
+23/11/2024:
+Consulta 25: Paciente ID 28, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 23:00 (Paciente não compareceu)
+Consulta 26: Paciente ID 18, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 23:00 (Paciente compareceu)
+Consulta 27: Paciente ID 1, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 23:00 (Paciente compareceu)
+Consulta 28: Paciente ID 10, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 23:00 (Paciente compareceu)
+Consulta 29: Paciente ID 25, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 23:00 (Paciente compareceu)
+Consulta 30: Paciente ID 26, Médico Dra_Ana (ID 1), Sala ID 0, Hora: 23:00 (Paciente compareceu)
 
-Consulta 4: Paciente Maria, Médico Dra_Ana, Sala Sala_A, 20/11/2024 as 11:00 
-
-Consulta 5: Paciente João, Médico Dra_Ana, Sala Sala_A, 20/11/2024 as 12:00 
-
-Consulta 6: Paciente Maria, Médico Dra_Ana, Sala Sala_A, 20/11/2024 as 13:00 
-
-Consulta 7: Paciente João, Médico Dra_Ana, Sala Sala_A, 20/11/2024 as 14:00 
-
-Consulta 8: Paciente João, Médico Dra_Ana, Sala Sala_A, 20/11/2024 as 15:00 
-
-Consulta 9: Paciente Maria, Médico Dra_Ana, Sala Sala_A, 20/11/2024 as 16:00 
-
-Consulta 10: Paciente Maria, Médico Dr_Silva, Sala Sala_B, 20/11/2024 as 8:00 
-
-Consulta 11: Paciente Maria, Médico Dra_Ana, Sala Sala_A, 21/11/2024 as 8:00 
-
-Consulta 12: Paciente Maria, Médico Dr_Silva, Sala Sala_B, 20/11/2024 as 9:00 
-
-Consulta 13: Paciente Maria, Médico Dra_Ana, Sala Sala_A, 21/11/2024 as 9:00 
-
-Consulta 14: Paciente Maria, Médico Dra_Ana, Sala Sala_A, 21/11/2024 as 10:00 
-
-Consulta 15: Paciente Maria, Médico Dra_Ana, Sala Sala_A, 21/11/2024 as 11:00 
-
-Consulta 16: Paciente Maria (ID 15), Médico Dra_Ana, Sala Sala_A, 21/11/2024 as 12:00 ( O paciente não compareceu )
-
-Consulta 17: Paciente Maria, Médico Dra_Ana, Sala Sala_A, 21/11/2024 as 13:00 
-
-Consulta 18: Paciente Maria, Médico Dr_Silva, Sala Sala_B, 20/11/2024 as 10:00 
-
-
-Segunda-feira:
+24/11/2024:
   Nenhuma consulta agendada.
 
-Terça-feira:
+25/11/2024:
   Nenhuma consulta agendada.
 
-Quarta-feira:
+26/11/2024:
   Nenhuma consulta agendada.
 
-Quinta-feira:
+27/11/2024:
   Nenhuma consulta agendada.
 
-Sexta-feira:
-  Nenhuma consulta agendada.
+=== Consultas de Retorno ===
+Retorno para Paciente ID 8 com Médico Dra_Ana (ID 1) em 21/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 5 com Médico Dra_Ana (ID 1) em 21/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 23 com Médico Dr_Silva (ID 0) em 21/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 9 com Médico Dra_Ana (ID 1) em 21/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 19 com Médico Dra_Ana (ID 1) em 21/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 14 com Médico Dra_Ana (ID 1) em 21/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 4 com Médico Dra_Ana (ID 1) em 21/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 6 com Médico Dra_Ana (ID 1) em 21/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 22 com Médico Dra_Ana (ID 1) em 21/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 24 com Médico Dra_Ana (ID 1) em 21/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 2 com Médico Dra_Ana (ID 1) em 22/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 3 com Médico Dr_Silva (ID 0) em 21/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 17 com Médico Dr_Silva (ID 0) em 21/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 29 com Médico Dra_Ana (ID 1) em 22/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 15 com Médico Dra_Ana (ID 1) em 22/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 7 com Médico Dr_Silva (ID 0) em 21/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 20 com Médico Dra_Ana (ID 1) em 22/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 21 com Médico Dra_Ana (ID 1) em 22/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 11 com Médico Dra_Ana (ID 1) em 22/12/2024. (Paciente não compareceu)
+Retorno para Paciente ID 12 com Médico Dra_Ana (ID 1) em 22/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 13 com Médico Dr_Silva (ID 0) em 21/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 27 com Médico Dr_Silva (ID 0) em 21/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 16 com Médico Dra_Ana (ID 1) em 22/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 0 com Médico Dra_Ana (ID 1) em 22/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 18 com Médico Dra_Ana (ID 1) em 23/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 1 com Médico Dra_Ana (ID 1) em 23/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 10 com Médico Dra_Ana (ID 1) em 23/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 25 com Médico Dra_Ana (ID 1) em 23/12/2024. (Paciente compareceu)
+Retorno para Paciente ID 26 com Médico Dra_Ana (ID 1) em 23/12/2024. (Paciente compareceu)
 
-Sábado:
-  Nenhuma consulta agendada.
-
-
-=== Consultas de retorno ===
-
-
-Resumo de Horas Trabalhadas:
-- Médico Dr_Silva (ID 0): 6 horas
-- Médico Dra_Ana (ID 1): 24 horas
+Resumo de Horas Trabalhadas por Médico:
+- Médico Dr_Silva (ID 0): 12 horas
+- Médico Dra_Ana (ID 1): 47 horas
